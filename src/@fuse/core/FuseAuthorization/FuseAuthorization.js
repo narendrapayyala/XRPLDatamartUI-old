@@ -1,9 +1,9 @@
-import FuseUtils from '@fuse/utils';
-import AppContext from 'app/AppContext';
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { matchRoutes } from 'react-router-config';
-import { withRouter } from 'react-router-dom';
+import FuseUtils from "@fuse/utils";
+import AppContext from "app/AppContext";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { matchRoutes } from "react-router-config";
+import { withRouter } from "react-router-dom";
 
 class FuseAuthorization extends Component {
   constructor(props, context) {
@@ -38,14 +38,16 @@ class FuseAuthorization extends Component {
     const matched = matchRoutes(state.routes, pathname)[0];
 
     return {
-      accessGranted: matched ? FuseUtils.hasPermission(matched.route.auth, userRole) : true,
+      accessGranted: matched
+        ? FuseUtils.hasPermission(matched.route.auth, userRole)
+        : true,
     };
   }
 
   redirectRoute() {
     const { location, userRole, history } = this.props;
     const { pathname, state } = location;
-    const redirectUrl = state && state.redirectUrl ? state.redirectUrl : '/';
+    const redirectUrl = state && state.redirectUrl ? state.redirectUrl : "/";
 
     /*
         User is guest
@@ -53,7 +55,7 @@ class FuseAuthorization extends Component {
         */
     if (!userRole || userRole.length === 0) {
       history.push({
-        pathname: '/login',
+        pathname: "/login",
         state: { redirectUrl: pathname },
       });
     } else {

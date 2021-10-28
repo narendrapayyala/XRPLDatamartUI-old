@@ -1,16 +1,15 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { styled } from '@mui/material/styles';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Typography from '@mui/material/Typography';
-import withReducer from 'app/store/withReducer';
-import { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import reducer from './store';
-import { toggleQuickPanel } from './store/stateSlice';
-
+import FuseScrollbars from "@fuse/core/FuseScrollbars";
+import { styled } from "@mui/material/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Typography from "@mui/material/Typography";
+import withReducer from "app/store/withReducer";
+import { memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import reducer from "./store";
+import { toggleQuickPanel } from "./store/stateSlice";
 
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
-  '& .MuiDrawer-paper': {
+  "& .MuiDrawer-paper": {
     width: 280,
   },
 }));
@@ -34,4 +33,4 @@ function QuickPanel(props) {
   );
 }
 
-export default withReducer('quickPanel', reducer)(memo(QuickPanel));
+export default withReducer("quickPanel", reducer)(memo(QuickPanel));

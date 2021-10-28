@@ -1,1 +1,1 @@
-export { default } from './FuseThemeSchemes';
+export { default } from "./FuseThemeSchemes";

@@ -1,9 +1,9 @@
-import Drawer from '@mui/material/Drawer';
-import Hidden from '@mui/material/Hidden';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import clsx from 'clsx';
-import { forwardRef, useImperativeHandle, useState } from 'react';
-import FusePageSimpleSidebarContent from './FusePageSimpleSidebarContent';
+import Drawer from "@mui/material/Drawer";
+import Hidden from "@mui/material/Hidden";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import clsx from "clsx";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import FusePageSimpleSidebarContent from "./FusePageSimpleSidebarContent";
 
 function FusePageSimpleSidebar(props, ref) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ function FusePageSimpleSidebar(props, ref) {
 
   return (
     <>
-      <Hidden lgUp={props.variant === 'permanent'}>
+      <Hidden lgUp={props.variant === "permanent"}>
         <SwipeableDrawer
           variant="temporary"
           anchor={props.position}
@@ -27,13 +27,13 @@ function FusePageSimpleSidebar(props, ref) {
           onClose={(ev) => handleToggleDrawer()}
           disableSwipeToOpen
           classes={{
-            root: clsx('FusePageSimple-sidebarWrapper', props.variant),
+            root: clsx("FusePageSimple-sidebarWrapper", props.variant),
             paper: clsx(
-              'FusePageSimple-sidebar',
+              "FusePageSimple-sidebar",
               props.variant,
-              props.position === 'left'
-                ? 'FusePageSimple-leftSidebar'
-                : 'FusePageSimple-rightSidebar'
+              props.position === "left"
+                ? "FusePageSimple-leftSidebar"
+                : "FusePageSimple-rightSidebar"
             ),
           }}
           ModalProps={{
@@ -42,27 +42,27 @@ function FusePageSimpleSidebar(props, ref) {
           container={props.rootRef.current}
           BackdropProps={{
             classes: {
-              root: 'FusePageSimple-backdrop',
+              root: "FusePageSimple-backdrop",
             },
           }}
-          style={{ position: 'absolute' }}
+          style={{ position: "absolute" }}
         >
           <FusePageSimpleSidebarContent {...props} />
         </SwipeableDrawer>
       </Hidden>
-      {props.variant === 'permanent' && (
+      {props.variant === "permanent" && (
         <Hidden lgDown>
           <Drawer
             variant="permanent"
-            className={clsx('FusePageSimple-sidebarWrapper', props.variant)}
+            className={clsx("FusePageSimple-sidebarWrapper", props.variant)}
             open={isOpen}
             classes={{
               paper: clsx(
-                'FusePageSimple-sidebar',
+                "FusePageSimple-sidebar",
                 props.variant,
-                props.position === 'left'
-                  ? 'FusePageSimple-leftSidebar'
-                  : 'FusePageSimple-rightSidebar'
+                props.position === "left"
+                  ? "FusePageSimple-leftSidebar"
+                  : "FusePageSimple-rightSidebar"
               ),
             }}
           >

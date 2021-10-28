@@ -1,12 +1,12 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import rtlPlugin from 'stylis-plugin-rtl';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { StyleSheetManager } from 'styled-components';
-import { useTheme, styled } from '@mui/material/styles';
-import GlobalStyles from '@mui/material/GlobalStyles';
+import * as React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import rtlPlugin from "stylis-plugin-rtl";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { StyleSheetManager } from "styled-components";
+import { useTheme, styled } from "@mui/material/styles";
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 function FramedDemo(props) {
   const { children, document } = props;
@@ -22,7 +22,7 @@ function FramedDemo(props) {
         key: `iframe-demo-${theme.direction}`,
         prepend: true,
         container: document.head,
-        stylisPlugins: theme.direction === 'rtl' ? [rtlPlugin] : [],
+        stylisPlugins: theme.direction === "rtl" ? [rtlPlugin] : [],
       }),
     [document, theme.direction]
   );
@@ -32,13 +32,13 @@ function FramedDemo(props) {
   return (
     <StyleSheetManager
       target={document.head}
-      stylisPlugins={theme.direction === 'rtl' ? [rtlPlugin] : []}
+      stylisPlugins={theme.direction === "rtl" ? [rtlPlugin] : []}
     >
       <CacheProvider value={cache}>
         <GlobalStyles
           styles={() => ({
             html: {
-              fontSize: '62.5%',
+              fontSize: "62.5%",
             },
           })}
         />
@@ -55,7 +55,7 @@ FramedDemo.propTypes = {
   document: PropTypes.object.isRequired,
 };
 
-const Frame = styled('iframe')(({ theme }) => ({
+const Frame = styled("iframe")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   flexGrow: 1,
   height: 400,
@@ -84,7 +84,11 @@ function DemoFrame(props) {
     // and "replay" the missed load event.
     // See https://github.com/facebook/react/pull/13862 for ongoing effort in React
     // (though not with iframes in mind).
-    if (document != null && document.readyState === 'complete' && !iframeLoaded) {
+    if (
+      document != null &&
+      document.readyState === "complete" &&
+      !iframeLoaded
+    ) {
       onLoad();
     }
   }, [iframeLoaded]);

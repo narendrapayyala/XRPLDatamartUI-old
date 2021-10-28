@@ -1,50 +1,54 @@
-import Hidden from '@mui/material/Hidden';
-import { styled } from '@mui/material/styles';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { navbarCloseFolded, navbarOpenFolded, navbarCloseMobile } from 'app/store/fuse/navbarSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import NavbarStyle2Content from './NavbarStyle2Content';
+import Hidden from "@mui/material/Hidden";
+import { styled } from "@mui/material/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import {
+  navbarCloseFolded,
+  navbarOpenFolded,
+  navbarCloseMobile,
+} from "app/store/fuse/navbarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import NavbarStyle2Content from "./NavbarStyle2Content";
 
 const navbarWidth = 280;
 
-const Root = styled('div')(({ theme, folded }) => ({
-  display: 'flex',
-  flexDirection: 'column',
+const Root = styled("div")(({ theme, folded }) => ({
+  display: "flex",
+  flexDirection: "column",
   zIndex: 4,
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up("lg")]: {
     width: navbarWidth,
     minWidth: navbarWidth,
   },
 
   ...(folded && {
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       width: 64,
       minWidth: 64,
     },
   }),
 }));
 
-const StyledNavbar = styled('div')(
+const StyledNavbar = styled("div")(
   ({ theme, position, folded, foldedAndOpened, foldedAndClosed }) => ({
     minWidth: navbarWidth,
     width: navbarWidth,
     maxWidth: navbarWidth,
-    maxHeight: '100%',
-    transition: theme.transitions.create(['width', 'min-width'], {
+    maxHeight: "100%",
+    transition: theme.transitions.create(["width", "min-width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.shorter,
     }),
 
-    ...(position === 'left' && {
+    ...(position === "left" && {
       left: 0,
     }),
 
-    ...(position === 'right' && {
+    ...(position === "right" && {
       right: 0,
     }),
 
     ...(folded && {
-      position: 'absolute',
+      position: "absolute",
       width: 64,
       minWidth: 64,
       top: 0,
@@ -57,46 +61,46 @@ const StyledNavbar = styled('div')(
     }),
 
     ...(foldedAndClosed && {
-      '& .NavbarStyle2-content': {
-        '& .logo-icon': {
+      "& .NavbarStyle2-content": {
+        "& .logo-icon": {
           width: 32,
           height: 32,
         },
-        '& .logo-text': {
+        "& .logo-text": {
           opacity: 0,
         },
-        '& .react-badge': {
+        "& .react-badge": {
           opacity: 0,
         },
-        '& .fuse-list-item-text, & .arrow-icon, & .item-badge': {
+        "& .fuse-list-item-text, & .arrow-icon, & .item-badge": {
           opacity: 0,
         },
-        '& .fuse-list-subheader .fuse-list-subheader-text': {
+        "& .fuse-list-subheader .fuse-list-subheader-text": {
           opacity: 0,
         },
-        '& .fuse-list-subheader:before': {
+        "& .fuse-list-subheader:before": {
           content: '""',
-          display: 'block',
-          position: 'absolute',
+          display: "block",
+          position: "absolute",
           minWidth: 16,
-          borderTop: '2px solid',
+          borderTop: "2px solid",
           opacity: 0.2,
         },
-        '& .collapse-children': {
-          display: 'none',
+        "& .collapse-children": {
+          display: "none",
         },
-        '& .user': {
-          '& .username, & .email': {
+        "& .user": {
+          "& .username, & .email": {
             opacity: 0,
           },
-          '& .avatar': {
+          "& .avatar": {
             width: 40,
             height: 40,
             bottom: 104,
             padding: 0,
           },
         },
-        '& .fuse-list-item.active': {
+        "& .fuse-list-item.active": {
           width: 44,
         },
       },
@@ -105,12 +109,12 @@ const StyledNavbar = styled('div')(
 );
 
 const StyledNavbarMobile = styled(SwipeableDrawer)(({ theme, position }) => ({
-  '& > .MuiDrawer-paper': {
+  "& > .MuiDrawer-paper": {
     minWidth: navbarWidth,
     width: navbarWidth,
     maxWidth: navbarWidth,
-    maxHeight: '100%',
-    transition: theme.transitions.create(['width', 'min-width'], {
+    maxHeight: "100%",
+    transition: theme.transitions.create(["width", "min-width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.shorter,
     }),
@@ -151,7 +155,7 @@ function NavbarStyle2(props) {
       <Hidden lgUp>
         <StyledNavbarMobile
           classes={{
-            paper: 'flex-col flex-auto h-full',
+            paper: "flex-col flex-auto h-full",
           }}
           folded={folded}
           foldedAndOpened={foldedAndOpened}

@@ -1,6 +1,6 @@
-import { createTheme, getContrastRatio } from '@mui/material/styles';
-import { createSlice, createSelector } from '@reduxjs/toolkit';
-import _ from '@lodash';
+import { createTheme, getContrastRatio } from "@mui/material/styles";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
+import _ from "@lodash";
 import {
   defaultThemes,
   mainThemeVariations,
@@ -9,28 +9,38 @@ import {
   defaultThemeOptions,
   getParsedQuerySettings,
   defaultSettings,
-} from '@fuse/default-settings';
-import FuseSettingsConfig from 'app/fuse-configs/settingsConfig';
-import FuseThemesConfig from 'app/fuse-configs/themesConfig';
-import FuseLayoutConfigs from 'app/fuse-layouts/FuseLayoutConfigs';
+} from "@fuse/default-settings";
+import FuseSettingsConfig from "app/fuse-configs/settingsConfig";
+import FuseThemesConfig from "app/fuse-configs/themesConfig";
+import FuseLayoutConfigs from "app/fuse-layouts/FuseLayoutConfigs";
 
 function getInitialSettings() {
   const defaultLayoutStyle =
     FuseSettingsConfig.layout && FuseSettingsConfig.layout.style
       ? FuseSettingsConfig.layout.style
-      : 'layout1';
+      : "layout1";
   const layout = {
     style: defaultLayoutStyle,
     config: FuseLayoutConfigs[defaultLayoutStyle].defaults,
   };
-  return _.merge({}, defaultSettings, { layout }, FuseSettingsConfig, getParsedQuerySettings());
+  return _.merge(
+    {},
+    defaultSettings,
+    { layout },
+    FuseSettingsConfig,
+    getParsedQuerySettings()
+  );
 }
 
 export function generateSettings(_defaultSettings, _newSettings) {
   const response = _.merge(
     {},
     _defaultSettings,
-    { layout: { config: FuseLayoutConfigs[_newSettings?.layout?.style]?.defaults } },
+    {
+      layout: {
+        config: FuseLayoutConfigs[_newSettings?.layout?.style]?.defaults,
+      },
+    },
     _newSettings
   );
 
@@ -38,8 +48,12 @@ export function generateSettings(_defaultSettings, _newSettings) {
    * Making theme values failsafe
    */
   Object.entries(response.theme).forEach(([key, value]) => {
-    if (value !== 'mainThemeDark' && value !== 'mainThemeLight' && !FuseThemesConfig[value]) {
-      response.theme[key] = 'default';
+    if (
+      value !== "mainThemeDark" &&
+      value !== "mainThemeLight" &&
+      !FuseThemesConfig[value]
+    ) {
+      response.theme[key] = "default";
     }
   });
 
@@ -54,7 +68,12 @@ const getToolbarThemeId = (state) => state.fuse.settings.current.theme.toolbar;
 const getFooterThemeId = (state) => state.fuse.settings.current.theme.footer;
 
 function generateMuiTheme(themes, id, direction) {
-  const data = _.merge({}, defaultThemeOptions, themes[id], mustHaveThemeOptions);
+  const data = _.merge(
+    {},
+    defaultThemeOptions,
+    themes[id],
+    mustHaveThemeOptions
+  );
   const response = createTheme(
     _.merge({}, data, {
       mixins: extendThemeWithMixins(data),
@@ -71,7 +90,7 @@ export const selectFuseThemeById = (id) =>
 
 export const selectContrastMainTheme = (bgColor) => {
   function isDark(color) {
-    return getContrastRatio(color, '#ffffff') >= 3;
+    return getContrastRatio(color, "#ffffff") >= 3;
   }
   return isDark(bgColor) ? selectMainThemeDark : selectMainThemeLight;
 };
@@ -83,11 +102,13 @@ export const selectMainTheme = createSelector(
 
 export const selectMainThemeDark = createSelector(
   [getThemes, getDirection],
-  (themes, direction, id) => generateMuiTheme(themes, 'mainThemeDark', direction)
+  (themes, direction, id) =>
+    generateMuiTheme(themes, "mainThemeDark", direction)
 );
 export const selectMainThemeLight = createSelector(
   [getThemes, getDirection],
-  (themes, direction, id) => generateMuiTheme(themes, 'mainThemeLight', direction)
+  (themes, direction, id) =>
+    generateMuiTheme(themes, "mainThemeLight", direction)
 );
 
 export const selectNavbarTheme = createSelector(
@@ -105,7 +126,8 @@ export const selectFooterTheme = createSelector(
   (themes, direction, id) => generateMuiTheme(themes, id, direction)
 );
 
-const themesObjRaw = Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
+const themesObjRaw =
+  Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
 const initialSettings = getInitialSettings();
 const initialThemes = {
   ...themesObjRaw,
@@ -120,14 +142,17 @@ const initialState = {
 };
 
 const settingsSlice = createSlice({
-  name: 'settings',
+  name: "settings",
   initialState,
   reducers: {
     setSettings: (state, action) => {
       const current = generateSettings(state.defaults, action.payload);
       const themes =
         current.theme.main !== state.current.theme.main
-          ? { ...state.themes, ...mainThemeVariations(themesObjRaw[current.theme.main]) }
+          ? {
+              ...state.themes,
+              ...mainThemeVariations(themesObjRaw[current.theme.main]),
+            }
           : state.themes;
       return {
         ...state,
@@ -139,7 +164,10 @@ const settingsSlice = createSlice({
       const defaults = generateSettings(state.defaults, action.payload);
       const themes =
         defaults.theme.main !== state.defaults.theme.main
-          ? { ...state.themes, ...mainThemeVariations(themesObjRaw[defaults.theme.main]) }
+          ? {
+              ...state.themes,
+              ...mainThemeVariations(themesObjRaw[defaults.theme.main]),
+            }
           : state.themes;
       return {
         ...state,
@@ -166,7 +194,11 @@ const settingsSlice = createSlice({
   },
 });
 
-export const { resetSettings, setDefaultSettings, setInitialSettings, setSettings } =
-  settingsSlice.actions;
+export const {
+  resetSettings,
+  setDefaultSettings,
+  setInitialSettings,
+  setSettings,
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

@@ -1,28 +1,28 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { styled, useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Hidden from '@mui/material/Hidden';
-import Icon from '@mui/material/Icon';
-import Logo from 'app/fuse-layouts/shared-components/Logo';
-import NavbarToggleButton from 'app/fuse-layouts/shared-components/NavbarToggleButton';
-import Navigation from 'app/fuse-layouts/shared-components/Navigation';
-import UserNavbarHeader from 'app/fuse-layouts/shared-components/UserNavbarHeader';
-import clsx from 'clsx';
-import { memo } from 'react';
+import FuseScrollbars from "@fuse/core/FuseScrollbars";
+import { styled, useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Hidden from "@mui/material/Hidden";
+import Icon from "@mui/material/Icon";
+import Logo from "app/fuse-layouts/shared-components/Logo";
+import NavbarToggleButton from "app/fuse-layouts/shared-components/NavbarToggleButton";
+import Navigation from "app/fuse-layouts/shared-components/Navigation";
+import UserNavbarHeader from "app/fuse-layouts/shared-components/UserNavbarHeader";
+import clsx from "clsx";
+import { memo } from "react";
 
-const Root = styled('div')(({ theme }) => ({
+const Root = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
 
-  '& .NavbarMobileLayout2-content': {
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    '-webkit-overflow-scrolling': 'touch',
+  "& .NavbarMobileLayout2-content": {
+    overflowX: "hidden",
+    overflowY: "auto",
+    "-webkit-overflow-scrolling": "touch",
     background:
-      'linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '100% 40px, 100% 10px',
-    backgroundAttachment: 'local, scroll',
+      "linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% 40px, 100% 10px",
+    backgroundAttachment: "local, scroll",
   },
 }));
 
@@ -30,7 +30,9 @@ function NavbarMobileLayout2(props) {
   const theme = useTheme();
 
   return (
-    <Root className={clsx('flex flex-col h-full overflow-hidden', props.className)}>
+    <Root
+      className={clsx("flex flex-col h-full overflow-hidden", props.className)}
+    >
       <AppBar
         color="primary"
         position="static"
@@ -46,7 +48,9 @@ function NavbarMobileLayout2(props) {
 
         <Hidden lgUp>
           <NavbarToggleButton className="w-40 h-40 p-0">
-            <Icon>{theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}"</Icon>
+            <Icon>
+              {theme.direction === "ltr" ? "arrow_back" : "arrow_forward"}"
+            </Icon>
           </NavbarToggleButton>
         </Hidden>
       </AppBar>

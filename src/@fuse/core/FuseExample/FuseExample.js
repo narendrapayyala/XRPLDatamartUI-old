@@ -1,13 +1,13 @@
-import FuseHighlight from '@fuse/core/FuseHighlight';
-import AppBar from '@mui/material/AppBar';
-import Card from '@mui/material/Card';
-import Icon from '@mui/material/Icon';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import DemoFrame from './DemoFrame';
+import FuseHighlight from "@fuse/core/FuseHighlight";
+import AppBar from "@mui/material/AppBar";
+import Card from "@mui/material/Card";
+import Icon from "@mui/material/Icon";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import DemoFrame from "./DemoFrame";
 
 const propTypes = {
   raw: PropTypes.object,
@@ -27,22 +27,29 @@ function FuseExample(props) {
   }
 
   return (
-    <Card className={clsx(className, 'shadow')}>
+    <Card className={clsx(className, "shadow")}>
       <AppBar position="static" color="default" className="shadow-0">
         <Tabs
           classes={{
-            root: 'border-b-1',
-            flexContainer: 'justify-end',
+            root: "border-b-1",
+            flexContainer: "justify-end",
           }}
           value={currentTab}
           onChange={handleChange}
         >
-          {Component && <Tab classes={{ root: 'min-w-64' }} icon={<Icon>remove_red_eye</Icon>} />}
-          {raw && <Tab classes={{ root: 'min-w-64' }} icon={<Icon>code</Icon>} />}
+          {Component && (
+            <Tab
+              classes={{ root: "min-w-64" }}
+              icon={<Icon>remove_red_eye</Icon>}
+            />
+          )}
+          {raw && (
+            <Tab classes={{ root: "min-w-64" }} icon={<Icon>code</Icon>} />
+          )}
         </Tabs>
       </AppBar>
       <div className="flex justify-center max-w-full relative">
-        <div className={currentTab === 0 ? 'flex flex-1 max-w-full' : 'hidden'}>
+        <div className={currentTab === 0 ? "flex flex-1 max-w-full" : "hidden"}>
           {Component &&
             (iframe ? (
               <DemoFrame>
@@ -54,13 +61,13 @@ function FuseExample(props) {
               </div>
             ))}
         </div>
-        <div className={currentTab === 1 ? 'flex flex-1' : 'hidden'}>
+        <div className={currentTab === 1 ? "flex flex-1" : "hidden"}>
           {raw && (
             <div className="flex flex-1">
               <FuseHighlight
                 component="pre"
                 className="language-javascript w-full"
-                sx={{ borderRadius: '0!important' }}
+                sx={{ borderRadius: "0!important" }}
               >
                 {raw.default}
               </FuseHighlight>

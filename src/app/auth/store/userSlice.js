@@ -1,19 +1,22 @@
 /* eslint import/no-extraneous-dependencies: off */
-import { createSlice } from '@reduxjs/toolkit';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import history from '@history';
-import _ from '@lodash';
-import { setInitialSettings, setDefaultSettings } from 'app/store/fuse/settingsSlice';
-import { showMessage } from 'app/store/fuse/messageSlice';
-import auth0Service from 'app/services/auth0Service';
-import firebaseService from 'app/services/firebaseService';
-import jwtService from 'app/services/jwtService';
+import { createSlice } from "@reduxjs/toolkit";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import history from "@history";
+import _ from "@lodash";
+import {
+  setInitialSettings,
+  setDefaultSettings,
+} from "app/store/fuse/settingsSlice";
+import { showMessage } from "app/store/fuse/messageSlice";
+import auth0Service from "app/services/auth0Service";
+import firebaseService from "app/services/firebaseService";
+import jwtService from "app/services/jwtService";
 
 export const setUserDataAuth0 = (tokenData) => async (dispatch) => {
   const user = {
-    role: ['admin'],
-    from: 'auth0',
+    role: ["admin"],
+    from: "auth0",
     data: {
       displayName: tokenData.username || tokenData.name,
       photoURL: tokenData.picture,
@@ -49,30 +52,31 @@ export const setUserDataFirebase = (user, authUser) => async (dispatch) => {
   return dispatch(createUserSettingsFirebase(authUser));
 };
 
-export const createUserSettingsFirebase = (authUser) => async (dispatch, getState) => {
-  const guestUser = getState().auth.user;
-  const fuseDefaultSettings = getState().fuse.settings.defaults;
-  const { currentUser } = firebase.auth();
+export const createUserSettingsFirebase =
+  (authUser) => async (dispatch, getState) => {
+    const guestUser = getState().auth.user;
+    const fuseDefaultSettings = getState().fuse.settings.defaults;
+    const { currentUser } = firebase.auth();
 
-  /**
-   * Merge with current Settings
-   */
-  const user = _.merge({}, guestUser, {
-    uid: authUser.uid,
-    from: 'firebase',
-    role: ['admin'],
-    data: {
-      displayName: authUser.displayName,
-      email: authUser.email,
-      settings: { ...fuseDefaultSettings },
-    },
-  });
-  currentUser.updateProfile(user.data);
+    /**
+     * Merge with current Settings
+     */
+    const user = _.merge({}, guestUser, {
+      uid: authUser.uid,
+      from: "firebase",
+      role: ["admin"],
+      data: {
+        displayName: authUser.displayName,
+        email: authUser.email,
+        settings: { ...fuseDefaultSettings },
+      },
+    });
+    currentUser.updateProfile(user.data);
 
-  dispatch(updateUserData(user));
+    dispatch(updateUserData(user));
 
-  return dispatch(setUserData(user));
-};
+    return dispatch(setUserData(user));
+  };
 
 export const setUserData = (user) => async (dispatch, getState) => {
   /*
@@ -100,20 +104,21 @@ export const updateUserSettings = (settings) => async (dispatch, getState) => {
   return dispatch(setUserData(user));
 };
 
-export const updateUserShortcuts = (shortcuts) => async (dispatch, getState) => {
-  const { user } = getState().auth;
-  const newUser = {
-    ...user,
-    data: {
-      ...user.data,
-      shortcuts,
-    },
+export const updateUserShortcuts =
+  (shortcuts) => async (dispatch, getState) => {
+    const { user } = getState().auth;
+    const newUser = {
+      ...user,
+      data: {
+        ...user.data,
+        shortcuts,
+      },
+    };
+
+    dispatch(updateUserData(newUser));
+
+    return dispatch(setUserData(newUser));
   };
-
-  dispatch(updateUserData(newUser));
-
-  return dispatch(setUserData(newUser));
-};
 
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState().auth;
@@ -124,15 +129,15 @@ export const logoutUser = () => async (dispatch, getState) => {
   }
 
   history.push({
-    pathname: '/',
+    pathname: "/",
   });
 
   switch (user.from) {
-    case 'firebase': {
+    case "firebase": {
       firebaseService.signOut();
       break;
     }
-    case 'auth0': {
+    case "auth0": {
       auth0Service.logout();
       break;
     }
@@ -152,25 +157,25 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     return;
   }
   switch (user.from) {
-    case 'firebase': {
+    case "firebase": {
       firebaseService
         .updateUserData(user)
         .then(() => {
-          dispatch(showMessage({ message: 'User data saved to firebase' }));
+          dispatch(showMessage({ message: "User data saved to firebase" }));
         })
         .catch((error) => {
           dispatch(showMessage({ message: error.message }));
         });
       break;
     }
-    case 'auth0': {
+    case "auth0": {
       auth0Service
         .updateUserData({
           settings: user.data.settings,
           shortcuts: user.data.shortcuts,
         })
         .then(() => {
-          dispatch(showMessage({ message: 'User data saved to auth0' }));
+          dispatch(showMessage({ message: "User data saved to auth0" }));
         })
         .catch((error) => {
           dispatch(showMessage({ message: error.message }));
@@ -181,7 +186,7 @@ export const updateUserData = (user) => async (dispatch, getState) => {
       jwtService
         .updateUserData(user)
         .then(() => {
-          dispatch(showMessage({ message: 'User data saved with api' }));
+          dispatch(showMessage({ message: "User data saved with api" }));
         })
         .catch((error) => {
           dispatch(showMessage({ message: error.message }));
@@ -194,15 +199,15 @@ export const updateUserData = (user) => async (dispatch, getState) => {
 const initialState = {
   role: [], // guest
   data: {
-    displayName: 'John Doe',
-    photoURL: 'assets/images/avatars/Velazquez.jpg',
-    email: 'johndoe@withinpixels.com',
-    shortcuts: ['calendar', 'mail', 'contacts', 'todo'],
+    displayName: "John Doe",
+    photoURL: "assets/images/avatars/Velazquez.jpg",
+    email: "johndoe@withinpixels.com",
+    shortcuts: ["calendar", "mail", "contacts", "todo"],
   },
 };
 
 const userSlice = createSlice({
-  name: 'auth/user',
+  name: "auth/user",
   initialState,
   reducers: {
     setUser: (state, action) => action.payload,

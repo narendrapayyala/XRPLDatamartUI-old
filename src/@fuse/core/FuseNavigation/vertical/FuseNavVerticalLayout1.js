@@ -1,28 +1,32 @@
-import List from '@mui/material/List';
-import { styled } from '@mui/material/styles';
-import clsx from 'clsx';
-import { useDispatch } from 'react-redux';
-import FuseNavItem from '../FuseNavItem';
+import List from "@mui/material/List";
+import { styled } from "@mui/material/styles";
+import clsx from "clsx";
+import { useDispatch } from "react-redux";
+import FuseNavItem from "../FuseNavItem";
 
 const StyledList = styled(List)(({ theme }) => ({
-  '& .fuse-list-item': {
-    '&:hover': {
+  "& .fuse-list-item": {
+    "&:hover": {
       backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,.04)',
+        theme.palette.mode === "dark"
+          ? "rgba(255, 255, 255, 0.05)"
+          : "rgba(0,0,0,.04)",
     },
-    '&:focus:not(.active)': {
+    "&:focus:not(.active)": {
       backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0,0,0,.05)',
+        theme.palette.mode === "dark"
+          ? "rgba(255, 255, 255, 0.06)"
+          : "rgba(0,0,0,.05)",
     },
   },
-  '&.active-square-list': {
-    '& .fuse-list-item, & .active.fuse-list-item': {
-      width: '100%',
-      borderRadius: '0',
+  "&.active-square-list": {
+    "& .fuse-list-item, & .active.fuse-list-item": {
+      width: "100%",
+      borderRadius: "0",
     },
   },
-  '&.dense': {
-    '& .fuse-list-item': {
+  "&.dense": {
+    "& .fuse-list-item": {
       paddingTop: 0,
       paddingBottom: 0,
       height: 32,
@@ -41,9 +45,9 @@ function FuseNavVerticalLayout1(props) {
   return (
     <StyledList
       className={clsx(
-        'navigation whitespace-nowrap px-12',
+        "navigation whitespace-nowrap px-12",
         `active-${active}-list`,
-        dense && 'dense',
+        dense && "dense",
         className
       )}
     >

@@ -1,15 +1,15 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { logoutUser } from 'app/auth/store/userSlice';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { logoutUser } from "app/auth/store/userSlice";
 
 function UserMenu(props) {
   const dispatch = useDispatch();
@@ -36,14 +36,23 @@ function UserMenu(props) {
           <Typography component="span" className="font-semibold flex">
             {user.data.displayName}
           </Typography>
-          <Typography className="text-11 font-medium capitalize" color="textSecondary">
+          <Typography
+            className="text-11 font-medium capitalize"
+            color="textSecondary"
+          >
             {user.role.toString()}
-            {(!user.role || (Array.isArray(user.role) && user.role.length === 0)) && 'Guest'}
+            {(!user.role ||
+              (Array.isArray(user.role) && user.role.length === 0)) &&
+              "Guest"}
           </Typography>
         </div>
 
         {user.data.photoURL ? (
-          <Avatar className="md:mx-4" alt="user photo" src={user.data.photoURL} />
+          <Avatar
+            className="md:mx-4"
+            alt="user photo"
+            src={user.data.photoURL}
+          />
         ) : (
           <Avatar className="md:mx-4">{user.data.displayName[0]}</Avatar>
         )}
@@ -54,15 +63,15 @@ function UserMenu(props) {
         anchorEl={userMenu}
         onClose={userMenuClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
         classes={{
-          paper: 'py-8',
+          paper: "py-8",
         }}
       >
         {!user.role || user.role.length === 0 ? (
@@ -82,13 +91,23 @@ function UserMenu(props) {
           </>
         ) : (
           <>
-            <MenuItem component={Link} to="/pages/profile" onClick={userMenuClose} role="button">
+            <MenuItem
+              component={Link}
+              to="/pages/profile"
+              onClick={userMenuClose}
+              role="button"
+            >
               <ListItemIcon className="min-w-40">
                 <Icon>account_circle</Icon>
               </ListItemIcon>
               <ListItemText primary="My Profile" />
             </MenuItem>
-            <MenuItem component={Link} to="/apps/mail" onClick={userMenuClose} role="button">
+            <MenuItem
+              component={Link}
+              to="/apps/mail"
+              onClick={userMenuClose}
+              role="button"
+            >
               <ListItemIcon className="min-w-40">
                 <Icon>mail</Icon>
               </ListItemIcon>

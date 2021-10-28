@@ -1,8 +1,8 @@
-import _ from '@lodash';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import { cloneElement, memo } from 'react';
+import _ from "@lodash";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import { cloneElement, memo } from "react";
 
 function DemoSidebarContent() {
   function generate(element) {

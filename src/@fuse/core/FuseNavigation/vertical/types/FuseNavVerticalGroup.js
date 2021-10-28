@@ -1,30 +1,30 @@
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import { styled, useTheme, alpha } from '@mui/material/styles';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import ListSubheader from '@mui/material/ListSubheader';
-import FuseNavItem from '../../FuseNavItem';
+import NavLinkAdapter from "@fuse/core/NavLinkAdapter";
+import { styled, useTheme, alpha } from "@mui/material/styles";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { useMemo } from "react";
+import { useDispatch } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ListSubheader from "@mui/material/ListSubheader";
+import FuseNavItem from "../../FuseNavItem";
 
 const Root = styled(ListSubheader)(({ theme, ...props }) => ({
   height: 40,
-  width: '100%',
-  borderRadius: '6px',
-  margin: '24px 0 4px 0',
+  width: "100%",
+  borderRadius: "6px",
+  margin: "24px 0 4px 0",
   paddingRight: 12,
   paddingLeft: props.itemPadding > 80 ? 80 : props.itemPadding,
   color: alpha(theme.palette.text.primary, 0.7),
   fontWeight: 600,
-  letterSpacing: '0.025em',
+  letterSpacing: "0.025em",
 }));
 
 function FuseNavVerticalGroup(props) {
   const dispatch = useDispatch();
 
   const theme = useTheme();
-  const mdDown = useMediaQuery(theme.breakpoints.down('lg'));
+  const mdDown = useMediaQuery(theme.breakpoints.down("lg"));
   const { item, nestedLevel, onItemClick } = props;
 
   const itemPadding = nestedLevel > 0 ? 28 + nestedLevel * 16 : 12;
@@ -35,13 +35,18 @@ function FuseNavVerticalGroup(props) {
         <Root
           itemPadding={itemPadding}
           disableSticky
-          className={clsx('fuse-list-subheader flex items-center', !item.url && 'cursor-default')}
+          className={clsx(
+            "fuse-list-subheader flex items-center",
+            !item.url && "cursor-default"
+          )}
           onClick={() => onItemClick && onItemClick(item)}
-          component={item.url ? NavLinkAdapter : 'li'}
+          component={item.url ? NavLinkAdapter : "li"}
           to={item.url}
           role="button"
         >
-          <span className="fuse-list-subheader-text uppercase text-12">{item.title}</span>
+          <span className="fuse-list-subheader-text uppercase text-12">
+            {item.title}
+          </span>
         </Root>
         {item.children && (
           <>

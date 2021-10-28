@@ -3,10 +3,10 @@
  *
  */
 
-@import 'print.css';
+@import "print.css";
 
-@import 'tables.css';
+@import "tables.css";
 
-@import 'prism.css';
+@import "prism.css";
 
-@import 'tailwindcss/components';
+@import "tailwindcss/components";

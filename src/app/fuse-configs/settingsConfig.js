@@ -1,10 +1,10 @@
 const settingsConfig = {
   layout: {
-    style: 'layout1', // layout1 layout2 layout3
+    style: "layout1", // layout1 layout2 layout3
     config: {
       navbar: {
         display: true,
-        style: 'style-2',
+        style: "style-2",
         // folded: false,
         // position: 'left',
       },
@@ -17,12 +17,12 @@ const settingsConfig = {
     },
   },
   customScrollbars: true,
-  direction: 'ltr', // rtl, ltr
+  direction: "ltr", // rtl, ltr
   theme: {
-    main: 'custom',
-    navbar: 'custom',
-    toolbar: 'custom',
-    footer: 'custom',
+    main: "custom",
+    navbar: "custom",
+    toolbar: "custom",
+    footer: "custom",
   },
 };
 

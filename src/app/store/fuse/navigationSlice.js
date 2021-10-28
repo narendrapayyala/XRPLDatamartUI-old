@@ -1,24 +1,37 @@
-import { createSelector, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import navigationConfig from 'app/fuse-configs/navigationConfig';
-import FuseUtils from '@fuse/utils';
-import i18next from 'i18next';
-import _ from '@lodash';
+import {
+  createSelector,
+  createEntityAdapter,
+  createSlice,
+} from "@reduxjs/toolkit";
+import navigationConfig from "app/fuse-configs/navigationConfig";
+import FuseUtils from "@fuse/utils";
+import i18next from "i18next";
+import _ from "@lodash";
 
 const navigationAdapter = createEntityAdapter();
 const emptyInitialState = navigationAdapter.getInitialState();
-const initialState = navigationAdapter.upsertMany(emptyInitialState, navigationConfig);
+const initialState = navigationAdapter.upsertMany(
+  emptyInitialState,
+  navigationConfig
+);
 
-export const appendNavigationItem = (item, parentId) => (dispatch, getState) => {
-  const navigation = selectNavigationAll(getState());
+export const appendNavigationItem =
+  (item, parentId) => (dispatch, getState) => {
+    const navigation = selectNavigationAll(getState());
 
-  return dispatch(setNavigation(FuseUtils.appendNavItem(navigation, item, parentId)));
-};
+    return dispatch(
+      setNavigation(FuseUtils.appendNavItem(navigation, item, parentId))
+    );
+  };
 
-export const prependNavigationItem = (item, parentId) => (dispatch, getState) => {
-  const navigation = selectNavigationAll(getState());
+export const prependNavigationItem =
+  (item, parentId) => (dispatch, getState) => {
+    const navigation = selectNavigationAll(getState());
 
-  return dispatch(setNavigation(FuseUtils.prependNavItem(navigation, item, parentId)));
-};
+    return dispatch(
+      setNavigation(FuseUtils.prependNavItem(navigation, item, parentId))
+    );
+  };
 
 export const updateNavigationItem = (id, item) => (dispatch, getState) => {
   const navigation = selectNavigationAll(getState());
@@ -39,7 +52,7 @@ export const {
 } = navigationAdapter.getSelectors((state) => state.fuse.navigation);
 
 const navigationSlice = createSlice({
-  name: 'navigation',
+  name: "navigation",
   initialState,
   reducers: {
     setNavigation: navigationAdapter.setAll,
@@ -81,8 +94,9 @@ export const selectNavigation = createSelector(
   }
 );
 
-export const selectFlatNavigation = createSelector([selectNavigation], (navigation) =>
-  FuseUtils.getFlatNavigation(navigation)
+export const selectFlatNavigation = createSelector(
+  [selectNavigation],
+  (navigation) => FuseUtils.getFlatNavigation(navigation)
 );
 
 export default navigationSlice.reducer;

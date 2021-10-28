@@ -1,88 +1,98 @@
-import Hidden from '@mui/material/Hidden';
-import { styled } from '@mui/material/styles';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { useDispatch, useSelector } from 'react-redux';
-import { navbarCloseMobile } from 'app/store/fuse/navbarSlice';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import NavbarStyle3Content from './NavbarStyle3Content';
+import Hidden from "@mui/material/Hidden";
+import { styled } from "@mui/material/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { useDispatch, useSelector } from "react-redux";
+import { navbarCloseMobile } from "app/store/fuse/navbarSlice";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import NavbarStyle3Content from "./NavbarStyle3Content";
 
 const navbarWidth = 120;
 const navbarWidthDense = 64;
 const panelWidth = 280;
 
-const StyledNavBar = styled('div')(({ theme, dense, open, folded, position }) => ({
-  minWidth: navbarWidth,
-  width: navbarWidth,
-  maxWidth: navbarWidth,
+const StyledNavBar = styled("div")(
+  ({ theme, dense, open, folded, position }) => ({
+    minWidth: navbarWidth,
+    width: navbarWidth,
+    maxWidth: navbarWidth,
 
-  ...(dense && {
-    minWidth: navbarWidthDense,
-    width: navbarWidthDense,
-    maxWidth: navbarWidthDense,
+    ...(dense && {
+      minWidth: navbarWidthDense,
+      width: navbarWidthDense,
+      maxWidth: navbarWidthDense,
+
+      ...(!open && {
+        ...(position === "left" && {
+          marginLeft: -navbarWidthDense,
+        }),
+
+        ...(position === "right" && {
+          marginRight: -navbarWidthDense,
+        }),
+      }),
+    }),
+
+    ...(!folded && {
+      minWidth: dense
+        ? navbarWidthDense + panelWidth
+        : navbarWidth + panelWidth,
+      width: dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth,
+      maxWidth: dense
+        ? navbarWidthDense + panelWidth
+        : navbarWidth + panelWidth,
+
+      "& #fuse-navbar-panel": {
+        opacity: "1!important",
+        pointerEvents: "initial!important",
+      },
+
+      ...(!open && {
+        ...(position === "left" && {
+          marginLeft: -(dense
+            ? navbarWidthDense + panelWidth
+            : navbarWidth + panelWidth),
+        }),
+
+        ...(position === "right" && {
+          marginRight: -(dense
+            ? navbarWidthDense + panelWidth
+            : navbarWidth + panelWidth),
+        }),
+      }),
+    }),
 
     ...(!open && {
-      ...(position === 'left' && {
-        marginLeft: -navbarWidthDense,
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      ...(position === "left" && {
+        marginLeft: -navbarWidth,
       }),
 
-      ...(position === 'right' && {
-        marginRight: -navbarWidthDense,
+      ...(position === "right" && {
+        marginRight: -navbarWidth,
       }),
     }),
-  }),
 
-  ...(!folded && {
-    minWidth: dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth,
-    width: dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth,
-    maxWidth: dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth,
-
-    '& #fuse-navbar-panel': {
-      opacity: '1!important',
-      pointerEvents: 'initial!important',
-    },
-
-    ...(!open && {
-      ...(position === 'left' && {
-        marginLeft: -(dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth),
-      }),
-
-      ...(position === 'right' && {
-        marginRight: -(dense ? navbarWidthDense + panelWidth : navbarWidth + panelWidth),
+    ...(open && {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
       }),
     }),
-  }),
-
-  ...(!open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(position === 'left' && {
-      marginLeft: -navbarWidth,
-    }),
-
-    ...(position === 'right' && {
-      marginRight: -navbarWidth,
-    }),
-  }),
-
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+  })
+);
 
 const StyledNavBarMobile = styled(SwipeableDrawer)(({ theme }) => ({
-  '& .MuiDrawer-paper': {
-    '& #fuse-navbar-side-panel': {
-      minWidth: 'auto',
-      wdith: 'auto',
+  "& .MuiDrawer-paper": {
+    "& #fuse-navbar-side-panel": {
+      minWidth: "auto",
+      wdith: "auto",
     },
-    '& #fuse-navbar-panel': {
-      opacity: '1!important',
-      pointerEvents: 'initial!important',
+    "& #fuse-navbar-panel": {
+      opacity: "1!important",
+      pointerEvents: "initial!important",
     },
   },
 }));
@@ -97,17 +107,17 @@ function NavbarStyle3(props) {
     <>
       <GlobalStyles
         styles={(theme) => ({
-          '& #fuse-navbar-side-panel': {
+          "& #fuse-navbar-side-panel": {
             width: props.dense ? navbarWidthDense : navbarWidth,
             minWidth: props.dense ? navbarWidthDense : navbarWidth,
             maxWidth: props.dense ? navbarWidthDense : navbarWidth,
           },
-          '& #fuse-navbar-panel': {
-            maxWidth: '100%',
+          "& #fuse-navbar-panel": {
+            maxWidth: "100%",
             width: panelWidth,
-            [theme.breakpoints.up('lg')]: {
+            [theme.breakpoints.up("lg")]: {
               minWidth: panelWidth,
-              maxWidth: 'initial',
+              maxWidth: "initial",
             },
           },
         })}
@@ -126,7 +136,8 @@ function NavbarStyle3(props) {
       <Hidden lgUp>
         <StyledNavBarMobile
           classes={{
-            paper: 'flex-col flex-auto h-screen max-w-full w-auto overflow-hidden',
+            paper:
+              "flex-col flex-auto h-screen max-w-full w-auto overflow-hidden",
           }}
           anchor={config.navbar.position}
           variant="temporary"

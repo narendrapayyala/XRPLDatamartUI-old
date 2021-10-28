@@ -1,16 +1,19 @@
-import Auth0Lock from 'auth0-lock';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import AUTH_CONFIG from './auth0ServiceConfig';
+import Auth0Lock from "auth0-lock";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import AUTH_CONFIG from "./auth0ServiceConfig";
 
 class Auth0Service {
   sdk = { auth0Manage: null };
 
   init(success) {
-    if (Object.entries(AUTH_CONFIG).length === 0 && AUTH_CONFIG.constructor === Object) {
-      if (process.env.NODE_ENV === 'development') {
+    if (
+      Object.entries(AUTH_CONFIG).length === 0 &&
+      AUTH_CONFIG.constructor === Object
+    ) {
+      if (process.env.NODE_ENV === "development") {
         console.warn(
-          'Missing Auth0 configuration at src/app/services/auth0Service/auth0ServiceConfig.js'
+          "Missing Auth0 configuration at src/app/services/auth0Service/auth0ServiceConfig.js"
         );
       }
       success(false);
@@ -19,15 +22,15 @@ class Auth0Service {
 
     this.lock = new Auth0Lock(AUTH_CONFIG.clientId, AUTH_CONFIG.domain, {
       autoclose: true,
-      socialButtonStyle: 'big',
+      socialButtonStyle: "big",
       auth: {
         // redirect: false,
         redirectUrl: AUTH_CONFIG.callbackUrl,
-        responseType: 'token id_token',
+        responseType: "token id_token",
         audience: `https://${AUTH_CONFIG.domain}/api/v2/`,
         params: {
           scope:
-            'openid profile email user_metadata app_metadata picture update:current_user_metadata create:current_user_metadata read:current_user',
+            "openid profile email user_metadata app_metadata picture update:current_user_metadata create:current_user_metadata read:current_user",
         },
       },
     });
@@ -53,7 +56,7 @@ class Auth0Service {
     }
 
     return this.lock.show({
-      initialScreen: 'signUp',
+      initialScreen: "signUp",
     });
   };
 
@@ -63,10 +66,12 @@ class Auth0Service {
     }
 
     // Add a callback for Lock's `authenticated` event
-    this.lock.on('authenticated', this.setSession);
+    this.lock.on("authenticated", this.setSession);
     // Add a callback for Lock's `authorization_error` event
-    this.lock.on('authorization_error', (err) => {
-      console.warn(`Error: ${err.error}. Check the console for further details.`);
+    this.lock.on("authorization_error", (err) => {
+      console.warn(
+        `Error: ${err.error}. Check the console for further details.`
+      );
     });
 
     return true;
@@ -76,25 +81,27 @@ class Auth0Service {
     if (!this.lock) {
       return false;
     }
-    return this.lock.on('authenticated', callback);
+    return this.lock.on("authenticated", callback);
   };
 
   setSession = (authResult) => {
     if (authResult && authResult.accessToken && authResult.idToken) {
       // Set the time that the access token will expire at
-      const expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
-      localStorage.setItem('access_token', authResult.accessToken);
-      localStorage.setItem('id_token', authResult.idToken);
-      localStorage.setItem('expires_at', expiresAt);
+      const expiresAt = JSON.stringify(
+        authResult.expiresIn * 1000 + new Date().getTime()
+      );
+      localStorage.setItem("access_token", authResult.accessToken);
+      localStorage.setItem("id_token", authResult.idToken);
+      localStorage.setItem("expires_at", expiresAt);
     }
   };
 
   logout = () => {
     // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('auth0.ssodata');
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
+    localStorage.removeItem("auth0.ssodata");
   };
 
   isAuthenticated = () => {
@@ -103,7 +110,7 @@ class Auth0Service {
     }
     // Check whether the current time is past the
     // access token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    const expiresAt = JSON.parse(localStorage.getItem("expires_at"));
     const isNotExpired = new Date().getTime() < expiresAt;
     if (isNotExpired) {
       return true;
@@ -123,7 +130,7 @@ class Auth0Service {
       axios
         .get(auth0UserUrl, {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${this.getAccessToken()}`,
           },
         })
@@ -132,7 +139,7 @@ class Auth0Service {
         })
         .catch((error) => {
           // handle error
-          console.warn('Cannot retrieve user data', error);
+          console.warn("Cannot retrieve user data", error);
           reject(error);
         });
     });
@@ -147,18 +154,18 @@ class Auth0Service {
 
     return axios.patch(auth0UserUrl, dataObj, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${this.getAccessToken()}`,
       },
     });
   };
 
   getAccessToken = () => {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem("access_token");
   };
 
   getIdToken = () => {
-    return window.localStorage.getItem('id_token');
+    return window.localStorage.getItem("id_token");
   };
 
   getTokenData = () => {

@@ -1,6 +1,6 @@
-import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
-import clsx from 'clsx';
+import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
+import clsx from "clsx";
 
 function PurchaseButton({ className }) {
   return (
@@ -10,7 +10,7 @@ function PurchaseButton({ className }) {
       target="_blank"
       rel="noreferrer noopener"
       role="button"
-      className={clsx('', className)}
+      className={clsx("", className)}
       variant="contained"
       color="secondary"
     >

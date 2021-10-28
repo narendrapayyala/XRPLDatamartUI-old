@@ -1,50 +1,50 @@
-import { useDebounce, usePrevious } from '@fuse/hooks';
-import { styled } from '@mui/material/styles';
-import { Controller, useForm } from 'react-hook-form';
-import FuseLayoutConfigs from '@fuse/layouts/FuseLayoutConfigs';
-import _ from '@lodash';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
-import { useCallback, useMemo, memo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUserSettings } from 'app/auth/store/userSlice';
-import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
+import { useDebounce, usePrevious } from "@fuse/hooks";
+import { styled } from "@mui/material/styles";
+import { Controller, useForm } from "react-hook-form";
+import FuseLayoutConfigs from "@fuse/layouts/FuseLayoutConfigs";
+import _ from "@lodash";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
+import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
+import { useCallback, useMemo, memo, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserSettings } from "app/auth/store/userSlice";
+import { setDefaultSettings } from "app/store/fuse/settingsSlice";
 
-const Root = styled('div')(({ theme }) => ({
-  '& .FuseSettings-formControl': {
-    margin: '6px 0',
-    width: '100%',
-    '&:last-child': {
+const Root = styled("div")(({ theme }) => ({
+  "& .FuseSettings-formControl": {
+    margin: "6px 0",
+    width: "100%",
+    "&:last-child": {
       marginBottom: 0,
     },
   },
 
-  '& .FuseSettings-group': {},
+  "& .FuseSettings-group": {},
 
-  '& .FuseSettings-formGroupTitle': {
-    position: 'absolute',
+  "& .FuseSettings-formGroupTitle": {
+    position: "absolute",
     top: -10,
     left: 8,
     fontWeight: 600,
-    padding: '0 4px',
+    padding: "0 4px",
     backgroundColor: theme.palette.background.paper,
   },
 
-  '& .FuseSettings-formGroup': {
-    position: 'relative',
+  "& .FuseSettings-formGroup": {
+    position: "relative",
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: 2,
-    padding: '12px 12px 0 12px',
-    margin: '24px 0 16px 0',
-    '&:first-of-type': {
+    padding: "12px 12px 0 12px",
+    margin: "24px 0 16px 0",
+    "&:first-of-type": {
       marginTop: 16,
     },
   },
@@ -56,7 +56,7 @@ function FuseSettings(props) {
   const themes = useSelector(({ fuse }) => fuse.settings.themes);
   const settings = useSelector(({ fuse }) => fuse.settings.current);
   const { reset, watch, control } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: settings,
   });
   const form = watch();
@@ -67,7 +67,7 @@ function FuseSettings(props) {
   const settingsChanged = !_.isEqual(settings, prevSettings);
 
   const handleUpdate = useDebounce((newSettings) => {
-    if (user.role === 'guest') {
+    if (user.role === "guest") {
       dispatch(setDefaultSettings(newSettings));
     } else {
       dispatch(updateUserSettings(newSettings));
@@ -98,7 +98,7 @@ function FuseSettings(props) {
       if (settings.layout.style !== newSettings.layout.style) {
         _.set(
           newSettings,
-          'layout.config',
+          "layout.config",
           FuseLayoutConfigs[newSettings?.layout?.style]?.defaults
         );
       }
@@ -127,13 +127,16 @@ function FuseSettings(props) {
         variant="outlined"
         style={{
           backgroundColor: themes[value].palette.background.default,
-          color: themes[value].palette.mode === 'light' ? '#000000' : '#ffffff',
+          color: themes[value].palette.mode === "light" ? "#000000" : "#ffffff",
         }}
       >
         {Object.entries(themes)
           .filter(
             ([key, val]) =>
-              !(name === 'theme.main' && (key === 'mainThemeDark' || key === 'mainThemeLight'))
+              !(
+                name === "theme.main" &&
+                (key === "mainThemeDark" || key === "mainThemeLight")
+              )
           )
           .map(([key, val]) => (
             <MenuItem
@@ -142,9 +145,11 @@ function FuseSettings(props) {
               className="m-8 mt-0 rounded-lg"
               style={{
                 backgroundColor: val.palette.background.default,
-                color: val.palette.mode === 'light' ? '#000000' : '#FFFFFF',
+                color: val.palette.mode === "light" ? "#000000" : "#FFFFFF",
                 border: `1px solid ${
-                  val.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'
+                  val.palette.mode === "light"
+                    ? "rgba(0, 0, 0, 0.12)"
+                    : "rgba(255, 255, 255, 0.12)"
                 }`,
               }}
             >
@@ -153,9 +158,9 @@ function FuseSettings(props) {
                 className="flex w-full h-8 block absolute bottom-0 left-0 right-0"
                 style={{
                   borderTop: `1px solid ${
-                    val.palette.mode === 'light'
-                      ? 'rgba(0, 0, 0, 0.12)'
-                      : 'rgba(255, 255, 255, 0.12)'
+                    val.palette.mode === "light"
+                      ? "rgba(0, 0, 0, 0.12)"
+                      : "rgba(255, 255, 255, 0.12)"
                   }`,
                 }}
               >
@@ -199,14 +204,17 @@ function FuseSettings(props) {
       Object.entries(_formConfigs).map(([key, formControl]) => {
         const target = prefix ? `${prefix}.${key}` : key;
         switch (formControl.type) {
-          case 'radio': {
+          case "radio": {
             return (
               <Controller
                 key={target}
                 name={target}
                 control={control}
                 render={({ field }) => (
-                  <FormControl component="fieldset" className="FuseSettings-formControl">
+                  <FormControl
+                    component="fieldset"
+                    className="FuseSettings-formControl"
+                  >
                     <FormLabel component="legend" className="text-14">
                       {formControl.title}
                     </FormLabel>
@@ -230,14 +238,17 @@ function FuseSettings(props) {
               />
             );
           }
-          case 'switch': {
+          case "switch": {
             return (
               <Controller
                 key={target}
                 name={target}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <FormControl component="fieldset" className="FuseSettings-formControl">
+                  <FormControl
+                    component="fieldset"
+                    className="FuseSettings-formControl"
+                  >
                     <FormLabel component="legend" className="text-14">
                       {formControl.title}
                     </FormLabel>
@@ -251,7 +262,7 @@ function FuseSettings(props) {
               />
             );
           }
-          case 'number': {
+          case "number": {
             return (
               <div key={target} className="FuseSettings-formControl">
                 <Controller
@@ -272,10 +283,13 @@ function FuseSettings(props) {
               </div>
             );
           }
-          case 'group': {
+          case "group": {
             return (
               <div key={target} className="FuseSettings-formGroup">
-                <Typography className="FuseSettings-formGroupTitle" color="textSecondary">
+                <Typography
+                  className="FuseSettings-formGroupTitle"
+                  color="textSecondary"
+                >
                   {formControl.title}
                 </Typography>
 
@@ -284,7 +298,7 @@ function FuseSettings(props) {
             );
           }
           default: {
-            return '';
+            return "";
           }
         }
       }),
@@ -294,7 +308,10 @@ function FuseSettings(props) {
   return (
     <Root>
       <div className="FuseSettings-formGroup">
-        <Typography className="FuseSettings-formGroupTitle" color="textSecondary">
+        <Typography
+          className="FuseSettings-formGroupTitle"
+          color="textSecondary"
+        >
           Layout
         </Typography>
 
@@ -302,11 +319,18 @@ function FuseSettings(props) {
           name="layout.style"
           control={control}
           render={({ field }) => (
-            <FormControl component="fieldset" className="FuseSettings-formControl">
+            <FormControl
+              component="fieldset"
+              className="FuseSettings-formControl"
+            >
               <FormLabel component="legend" className="text-14">
                 Style
               </FormLabel>
-              <RadioGroup {...field} aria-label="Layout Style" className="FuseSettings-group">
+              <RadioGroup
+                {...field}
+                aria-label="Layout Style"
+                className="FuseSettings-group"
+              >
                 {Object.entries(FuseLayoutConfigs).map(([key, layout]) => (
                   <FormControlLabel
                     key={key}
@@ -320,7 +344,10 @@ function FuseSettings(props) {
           )}
         />
 
-        {useMemo(() => getForm(formConfigs, 'layout.config'), [formConfigs, getForm])}
+        {useMemo(
+          () => getForm(formConfigs, "layout.config"),
+          [formConfigs, getForm]
+        )}
 
         <Typography className="my-16 text-12 italic" color="textSecondary">
           *Not all option combinations are available
@@ -328,7 +355,10 @@ function FuseSettings(props) {
       </div>
 
       <div className="FuseSettings-formGroup pb-16">
-        <Typography className="FuseSettings-formGroupTitle" color="textSecondary">
+        <Typography
+          className="FuseSettings-formGroupTitle"
+          color="textSecondary"
+        >
           Theme
         </Typography>
 
@@ -336,11 +366,18 @@ function FuseSettings(props) {
           name="theme.main"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <FormControl component="fieldset" className="FuseSettings-formControl">
+            <FormControl
+              component="fieldset"
+              className="FuseSettings-formControl"
+            >
               <FormLabel component="legend" className="text-14">
                 Main
               </FormLabel>
-              <ThemeSelect value={value} handleThemeChange={onChange} name="theme.main" />
+              <ThemeSelect
+                value={value}
+                handleThemeChange={onChange}
+                name="theme.main"
+              />
             </FormControl>
           )}
         />
@@ -349,12 +386,19 @@ function FuseSettings(props) {
           name="theme.navbar"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <FormControl component="fieldset" className="FuseSettings-formControl">
+            <FormControl
+              component="fieldset"
+              className="FuseSettings-formControl"
+            >
               <FormLabel component="legend" className="text-14">
                 Navbar
               </FormLabel>
 
-              <ThemeSelect value={value} handleThemeChange={onChange} name="theme.navbar" />
+              <ThemeSelect
+                value={value}
+                handleThemeChange={onChange}
+                name="theme.navbar"
+              />
             </FormControl>
           )}
         />
@@ -363,12 +407,19 @@ function FuseSettings(props) {
           name="theme.toolbar"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <FormControl component="fieldset" className="FuseSettings-formControl">
+            <FormControl
+              component="fieldset"
+              className="FuseSettings-formControl"
+            >
               <FormLabel component="legend" className="text-14">
                 Toolbar
               </FormLabel>
 
-              <ThemeSelect value={value} handleThemeChange={onChange} name="theme.toolbar" />
+              <ThemeSelect
+                value={value}
+                handleThemeChange={onChange}
+                name="theme.toolbar"
+              />
             </FormControl>
           )}
         />
@@ -377,11 +428,18 @@ function FuseSettings(props) {
           name="theme.footer"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <FormControl component="fieldset" className="FuseSettings-formControl">
+            <FormControl
+              component="fieldset"
+              className="FuseSettings-formControl"
+            >
               <FormLabel component="legend" className="text-14">
                 Footer
               </FormLabel>
-              <ThemeSelect value={value} handleThemeChange={onChange} name="theme.footer" />
+              <ThemeSelect
+                value={value}
+                handleThemeChange={onChange}
+                name="theme.footer"
+              />
             </FormControl>
           )}
         />
@@ -391,7 +449,10 @@ function FuseSettings(props) {
         name="customScrollbars"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <FormControl component="fieldset" className="FuseSettings-formControl">
+          <FormControl
+            component="fieldset"
+            className="FuseSettings-formControl"
+          >
             <FormLabel component="legend" className="text-14">
               Custom Scrollbars
             </FormLabel>
@@ -408,13 +469,31 @@ function FuseSettings(props) {
         name="direction"
         control={control}
         render={({ field }) => (
-          <FormControl component="fieldset" className="FuseSettings-formControl">
+          <FormControl
+            component="fieldset"
+            className="FuseSettings-formControl"
+          >
             <FormLabel component="legend" className="text-14">
               Direction
             </FormLabel>
-            <RadioGroup {...field} aria-label="Layout Direction" className="FuseSettings-group" row>
-              <FormControlLabel key="rtl" value="rtl" control={<Radio />} label="RTL" />
-              <FormControlLabel key="ltr" value="ltr" control={<Radio />} label="LTR" />
+            <RadioGroup
+              {...field}
+              aria-label="Layout Direction"
+              className="FuseSettings-group"
+              row
+            >
+              <FormControlLabel
+                key="rtl"
+                value="rtl"
+                control={<Radio />}
+                label="RTL"
+              />
+              <FormControlLabel
+                key="ltr"
+                value="ltr"
+                control={<Radio />}
+                label="LTR"
+              />
             </RadioGroup>
           </FormControl>
         )}

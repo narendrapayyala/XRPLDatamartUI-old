@@ -1,15 +1,15 @@
 /* eslint import/no-extraneous-dependencies: off */
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/database';
-import config from './firebaseServiceConfig';
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/database";
+import config from "./firebaseServiceConfig";
 
 class FirebaseService {
   init(success) {
     if (Object.entries(config).length === 0 && config.constructor === Object) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         console.warn(
-          'Missing Firebase Configuration at src/app/services/firebaseService/firebaseServiceConfig.js'
+          "Missing Firebase Configuration at src/app/services/firebaseService/firebaseServiceConfig.js"
         );
       }
       success(false);
@@ -32,7 +32,7 @@ class FirebaseService {
     return new Promise((resolve, reject) => {
       this.db
         .ref(`users/${userId}`)
-        .once('value')
+        .once("value")
         .then((snapshot) => {
           const user = snapshot.val();
           resolve(user);

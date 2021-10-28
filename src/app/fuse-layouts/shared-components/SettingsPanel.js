@@ -1,27 +1,27 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { styled, useTheme } from '@mui/material/styles';
-import FuseSettings from '@fuse/core/FuseSettings';
-import Button from '@mui/material/Button';
-import { red } from '@mui/material/colors';
-import Dialog from '@mui/material/Dialog';
-import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
-import Slide from '@mui/material/Slide';
-import Typography from '@mui/material/Typography';
-import { forwardRef, memo, useState } from 'react';
-import FuseThemeSchemes from '@fuse/core/FuseThemeSchemes';
-import { useSwipeable } from 'react-swipeable';
+import FuseScrollbars from "@fuse/core/FuseScrollbars";
+import { styled, useTheme } from "@mui/material/styles";
+import FuseSettings from "@fuse/core/FuseSettings";
+import Button from "@mui/material/Button";
+import { red } from "@mui/material/colors";
+import Dialog from "@mui/material/Dialog";
+import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+import Slide from "@mui/material/Slide";
+import Typography from "@mui/material/Typography";
+import { forwardRef, memo, useState } from "react";
+import FuseThemeSchemes from "@fuse/core/FuseThemeSchemes";
+import { useSwipeable } from "react-swipeable";
 
-const Root = styled('div')(({ theme }) => ({
-  position: 'absolute',
+const Root = styled("div")(({ theme }) => ({
+  position: "absolute",
   height: 80,
   right: 0,
   top: 160,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  overflow: 'hidden',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  overflow: "hidden",
   opacity: 0.9,
   padding: 0,
   borderTopLeftRadius: 6,
@@ -31,36 +31,36 @@ const Root = styled('div')(({ theme }) => ({
   zIndex: 999,
   color: theme.palette.getContrastText(red[500]),
   backgroundColor: red[500],
-  '&:hover': {
+  "&:hover": {
     backgroundColor: red[500],
     opacity: 1,
   },
 
-  '& .settingsButton': {
-    '& > span': {
-      animation: 'rotating 3s linear infinite',
+  "& .settingsButton": {
+    "& > span": {
+      animation: "rotating 3s linear infinite",
     },
   },
 
-  '@keyframes rotating': {
+  "@keyframes rotating": {
     from: {
-      transform: 'rotate(0deg)',
+      transform: "rotate(0deg)",
     },
     to: {
-      transform: 'rotate(360deg)',
+      transform: "rotate(360deg)",
     },
   },
 }));
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    position: 'fixed',
+  "& .MuiDialog-paper": {
+    position: "fixed",
     width: 380,
-    maxWidth: '90vw',
+    maxWidth: "90vw",
     backgroundColor: theme.palette.background.paper,
     top: 0,
-    height: '100%',
-    minHeight: '100%',
+    height: "100%",
+    minHeight: "100%",
     bottom: 0,
     right: 0,
     margin: 0,
@@ -71,7 +71,13 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 const Transition = forwardRef(function Transition(props, ref) {
   const theme = useTheme();
-  return <Slide direction={theme.direction === 'ltr' ? 'left' : 'right'} ref={ref} {...props} />;
+  return (
+    <Slide
+      direction={theme.direction === "ltr" ? "left" : "right"}
+      ref={ref}
+      {...props}
+    />
+  );
 });
 
 function SettingsPanel() {
@@ -80,10 +86,10 @@ function SettingsPanel() {
   const [open, setOpen] = useState(false);
   const handlerOptions = {
     onSwipedLeft: () => {
-      return open && theme.direction === 'rtl' && handleClose();
+      return open && theme.direction === "rtl" && handleClose();
     },
     onSwipedRight: () => {
-      return open && theme.direction === 'ltr' && handleClose();
+      return open && theme.direction === "ltr" && handleClose();
     },
   };
 
@@ -103,7 +109,7 @@ function SettingsPanel() {
       <Root id="fuse-settings-schemes" className="buttonWrapper">
         <Button
           className="settingsButton min-w-40 w-40 h-40 m-0"
-          onClick={() => handleOpen('settings')}
+          onClick={() => handleOpen("settings")}
           variant="text"
           color="inherit"
         >
@@ -112,7 +118,7 @@ function SettingsPanel() {
 
         <Button
           className="min-w-40 w-40 h-40 m-0"
-          onClick={() => handleOpen('schemes')}
+          onClick={() => handleOpen("schemes")}
           variant="text"
           color="inherit"
         >
@@ -123,12 +129,12 @@ function SettingsPanel() {
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
         aria-describedby="settings"
-        open={open === 'settings'}
+        open={open === "settings"}
         keepMounted
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: 'shadow-lg',
+          paper: "shadow-lg",
         }}
         {...settingsHandlers}
       >
@@ -152,12 +158,12 @@ function SettingsPanel() {
         TransitionComponent={Transition}
         aria-labelledby="schemes-panel"
         aria-describedby="schemes"
-        open={open === 'schemes'}
+        open={open === "schemes"}
         keepMounted
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: 'shadow-lg',
+          paper: "shadow-lg",
         }}
         {...shemesHandlers}
       >
@@ -174,10 +180,13 @@ function SettingsPanel() {
             Theme Color Schemes
           </Typography>
 
-          <Typography className="mb-24 text-12 italic text-justify" color="textSecondary">
-            * Selected color scheme will be applied to all theme layout elements (navbar, toolbar,
-            etc.). You can also select a different color scheme for each layout element at theme
-            settings.
+          <Typography
+            className="mb-24 text-12 italic text-justify"
+            color="textSecondary"
+          >
+            * Selected color scheme will be applied to all theme layout elements
+            (navbar, toolbar, etc.). You can also select a different color
+            scheme for each layout element at theme settings.
           </Typography>
 
           <FuseThemeSchemes />

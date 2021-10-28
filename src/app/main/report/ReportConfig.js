@@ -1,13 +1,13 @@
-import i18next from 'i18next';
-import Reports from './Reports';
-import Report from './Report';
-import en from './i18n/en';
-import tr from './i18n/tr';
-import ar from './i18n/ar';
+import i18next from "i18next";
+import Reports from "./Reports";
+import Report from "./Report";
+import en from "./i18n/en";
+import tr from "./i18n/tr";
+import ar from "./i18n/ar";
 
-i18next.addResourceBundle('en', 'examplePage', en);
-i18next.addResourceBundle('tr', 'examplePage', tr);
-i18next.addResourceBundle('ar', 'examplePage', ar);
+i18next.addResourceBundle("en", "examplePage", en);
+i18next.addResourceBundle("tr", "examplePage", tr);
+i18next.addResourceBundle("ar", "examplePage", ar);
 
 const ExampleConfig = {
   settings: {
@@ -17,11 +17,11 @@ const ExampleConfig = {
   },
   routes: [
     {
-      path: '/reports',
+      path: "/reports",
       component: Reports,
     },
     {
-      path: '/report/:id',
+      path: "/report/:id",
       component: Report,
     },
   ],

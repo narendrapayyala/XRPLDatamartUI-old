@@ -25,7 +25,20 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chart from 'react-apexcharts';
 import Grid from '@mui/material/Grid';
-import { getReportService } from '../../services/default';
+import Icon from '@mui/material/Icon';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Toolbar from '@mui/material/Toolbar';
+import moment from 'moment';
+import { showMessage } from 'app/store/fuse/messageSlice';
+import {
+  getReportService,
+  downloadCSVReport,
+  downloadPDFReport,
+  testDBConnection,
+  syncDB,
+} from '../../services/default';
 
 const Root = styled('div')(({ theme }) => ({
   '& .header': {
@@ -51,18 +64,166 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const SyncComponent = (props) => {
+  const dispatch = useDispatch();
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [sync, setSync] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  const defaultValues = {
+    database_connection: 'mysql',
+    database: '',
+    host: '',
+    port: '',
+    user: '',
+    password: '',
+    accounts: props.formValue.accounts,
+    ds_date: moment().format('DD-MM-YYYY'),
+  };
+
+  const { handleSubmit, register, reset, control, watch } = useForm({
+    defaultValues,
+    mode: 'onChange',
+  });
+
+  const handleTestConnection = (syncdata) => {
+    setFormData(syncdata);
+    setLoading1(true);
+    testDBConnection(syncdata).then((res) => {
+      setLoading1(false);
+      // console.log(res);
+      if (res.status) {
+        dispatch(showMessage({ message: res.message, variant: 'success' }));
+        setSync(true);
+      } else {
+        dispatch(showMessage({ message: res.message, variant: 'error' }));
+      }
+    });
+  };
+
+  const handleSyncSubmit = () => {
+    setLoading2(true);
+    syncDB(formData).then((res) => {
+      setLoading2(false);
+      // console.log(res);
+      if (res.status) {
+        dispatch(showMessage({ message: 'Sync successful', variant: 'success' }));
+        props.SyncModal(false);
+      } else {
+        dispatch(showMessage({ message: res.message, variant: 'error' }));
+      }
+    });
+  };
+
+  const syncData = watch();
+
+  return (
+    <form
+      onSubmit={handleSubmit((syncdata) => handleTestConnection(syncdata))}
+      className="flex flex-col justify-center font-bold"
+    >
+      <DialogContent classes={{ root: 'p-20 pb-0 w-full sm:p-24 sm:pb-0' }}>
+        <div className="w-full">
+          <Typography className="font-medium text-14">TYPE OF DATABASE</Typography>
+          <Controller
+            render={({ field }) => (
+              <Select {...field} variant="outlined" className="w-xs">
+                <MenuItem value="mysql">MySQL</MenuItem>
+              </Select>
+            )}
+            name="database_connection"
+            control={control}
+          />
+        </div>
+        <div className="w-full mt-20">
+          <Typography className="font-medium text-14">HOST NAME</Typography>
+          <input className="border-1 outline-none w-xs rounded-8 p-8" {...register('host')} />
+        </div>
+        <div className="w-full mt-20">
+          <Typography className="font-medium text-14">PORT</Typography>
+          <input className="border-1 outline-none w-xs rounded-8 p-8" {...register('port')} />
+        </div>
+        <div className="w-full mt-20">
+          <Typography className="font-medium text-14">USERNAME</Typography>
+          <input className="border-1 outline-none w-xs rounded-8 p-8" {...register('user')} />
+        </div>
+        <div className="w-full mt-20">
+          <Typography className="font-medium text-14">PASSWORD</Typography>
+          <input className="border-1 outline-none w-xs rounded-8 p-8" {...register('password')} />
+        </div>
+        <div className="w-full mt-20">
+          <Typography className="font-medium text-14">DEFAULT SCHEMA</Typography>
+          <input className="border-1 outline-none w-xs rounded-8 p-8" {...register('database')} />
+        </div>
+      </DialogContent>
+      <DialogActions className="justify-between p-8 mt-20">
+        <div className="px-16">
+          <Button
+            variant="contained"
+            className="mt-10 text-white"
+            disabled={
+              syncData.host === '' ||
+              syncData.database === '' ||
+              syncData.port === '' ||
+              syncData.user === '' ||
+              syncData.password === ''
+            }
+            color="secondary"
+            type="submit"
+          >
+            {loading1 ? <CircularProgress size={20} color="primary" /> : 'Test Connection'}
+          </Button>
+        </div>
+        <div className="px-16">
+          <Button
+            variant="contained"
+            className="mt-10 px-40"
+            startIcon={<Icon>sync</Icon>}
+            disabled={!sync}
+            color="primary"
+            type="button"
+            onClick={() => handleSyncSubmit()}
+          >
+            {loading2 ? <CircularProgress size={20} color="secondary" /> : 'Sync'}
+          </Button>
+        </div>
+        <div className="px-16">
+          <Button
+            variant="contained"
+            startIcon={<Icon>cancel</Icon>}
+            className="mt-10 px-24 text-white"
+            color="secondary"
+            type="button"
+            onClick={() => {
+              props.SyncModal(false);
+            }}
+          >
+            Close
+          </Button>
+        </div>
+      </DialogActions>
+    </form>
+  );
+};
+
 const Report = (props) => {
   const routeParams = useParams();
   const dispatch = useDispatch();
   const [value, setValue] = useState('1');
   const [accountList, setAccountList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [state, setState] = useState();
+  const [formValue, setFormValue] = useState();
+  const [syncModal, setSyncModal] = useState(false);
 
   const defaultValues = {
     order_by: 'Balance',
     address: [],
     report_name: '',
+    ds_date: moment().format('DD/MM/YYYY'),
   };
 
   const { handleSubmit, register, reset, control, watch } = useForm({
@@ -83,6 +244,7 @@ const Report = (props) => {
   const handleReportSubmit = (formData) => {
     setLoading(true);
     const target = { ...formData, accounts: formData.address };
+    setFormValue(target);
     getReportService(target).then((res) => {
       setLoading(false);
       // console.log(res);
@@ -138,7 +300,47 @@ const Report = (props) => {
         };
         setState(chart);
         setAccountList(res);
-        setValue('2');
+        setValue('3');
+      } else {
+        dispatch(showMessage({ message: 'Error', variant: 'error' }));
+      }
+    });
+  };
+
+  const downloadCSV = () => {
+    setLoading1(true);
+    downloadCSVReport(formValue).then((res) => {
+      setLoading1(false);
+      // console.log(res);
+      if (res) {
+        const downloadLink = document.createElement('a');
+        const blob = new Blob(['\ufeff', res]);
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = `${formValue.report_name}.csv`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      } else {
+        dispatch(showMessage({ message: res.message, variant: 'error' }));
+      }
+    });
+  };
+
+  const downloadPDF = () => {
+    setLoading2(true);
+    downloadPDFReport(formValue).then((res) => {
+      setLoading2(false);
+      // console.log(res);
+      if (res.status) {
+        const linkSource = res.pdfBase64;
+        const downloadLink = document.createElement('a');
+        const fileName = `${formValue.report_name}.pdf`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      } else {
+        dispatch(showMessage({ message: res.message, variant: 'error' }));
       }
     });
   };
@@ -172,8 +374,8 @@ const Report = (props) => {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <TabList onChange={handleChange} aria-label="lab API tabs example">
                     <Tab label="Request Report" value="1" />
-                    <Tab label="Report" value="2" />
-                    <Tab label="Data" value="3" />
+                    <Tab label="Report" disabled={accountList.length === 0} value="2" />
+                    <Tab label="Data" disabled={accountList.length === 0} value="3" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -213,7 +415,7 @@ const Report = (props) => {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                placeholder="Select address"
+                                placeholder="Select multiple addresses"
                                 // label="Tags"
                                 variant="outlined"
                                 InputLabelProps={{
@@ -224,6 +426,9 @@ const Report = (props) => {
                           />
                         )}
                       />
+                      <small>
+                        Eg: rETSmijMPXT9fnDbLADZnecxgkoJJ6iKUA, rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn
+                      </small>
                     </div>
                     <div className="mt-20">
                       <Typography className="font-medium text-14">REPORT NAME</Typography>
@@ -234,7 +439,7 @@ const Report = (props) => {
                     </div>
                     <div className="flex my-48 items-center">
                       <Button
-                        className="mx-8"
+                        className="mx-8 text-white"
                         variant="contained"
                         disabled={
                           data.order_by === '' ||
@@ -269,14 +474,58 @@ const Report = (props) => {
                 <TabPanel value="3">
                   <TableContainer component={Paper}>
                     <div className="flex flex-wrap max-w-3xl w-full mx-auto px-4 sm:px-16 py-24">
+                      <div className="w-full pb-10 sm:w-1/2 lg:w-1/4 sm:p-16" />
+                      <div className="w-full pb-10 sm:w-1/2 lg:w-3/4 sm:p-16 text-right items-right justify-right">
+                        <Button
+                          className="mx-8 text-white"
+                          variant="contained"
+                          color="secondary"
+                          type="button"
+                          onClick={() => downloadCSV()}
+                        >
+                          {loading1 ? (
+                            <>
+                              <CircularProgress size={20} color="primary" className="mr-6" />
+                              <span>DOWNLOAD CSV</span>
+                            </>
+                          ) : (
+                            'DOWNLOAD CSV'
+                          )}
+                        </Button>
+                        <Button
+                          variant="contained"
+                          className="px-40"
+                          startIcon={<Icon>sync</Icon>}
+                          onClick={() => setSyncModal(true)}
+                          color="primary"
+                          type="button"
+                        >
+                          Sync
+                        </Button>
+                        <Button
+                          className="mx-8 text-white"
+                          variant="contained"
+                          color="secondary"
+                          type="button"
+                          onClick={() => downloadPDF()}
+                        >
+                          {loading2 ? (
+                            <>
+                              <CircularProgress size={20} color="primary" className="mr-6" />
+                            </>
+                          ) : (
+                            'DOWNLOAD PDF'
+                          )}
+                        </Button>
+                      </div>
                       <div className="w-full pb-24 sm:w-1/2 lg:w-2/5 sm:p-16">
                         <Typography className="font-medium text-16">About this dataset</Typography>
                         <Typography
                           color="inherit"
                           className="text-10 sm:text-12 mt-4 sm:mt-10 opacity-75 leading-tight sm:leading-loose"
                         >
-                          Datasetset consists of the top 1000 accounts with the largest ETH balances
-                          from March 27, 2019.
+                          Dataset consists of balances related to the accounts from{' '}
+                          {moment().format('DD/MM/YYYY')}
                         </Typography>
                       </div>
                       <div className="w-full pb-24 sm:w-1/2 lg:w-3/5 sm:p-16 items-start justify-start">
@@ -286,7 +535,7 @@ const Report = (props) => {
                             ADDRESS
                           </Grid>
                           <Grid item xs={8} md={8}>
-                            About this dataset
+                            Account address
                           </Grid>
                         </Grid>
                         <Grid container spacing={2} className="mt-2">
@@ -294,7 +543,7 @@ const Report = (props) => {
                             BALANCE IN XRP
                           </Grid>
                           <Grid item xs={8} md={8}>
-                            account balance in XRP at the time the data was requested
+                            Account balance in XRP at the time the data was requested
                           </Grid>
                         </Grid>
                         <Grid container spacing={2} className="mt-2">
@@ -302,15 +551,17 @@ const Report = (props) => {
                             LEDGER INDEX
                           </Grid>
                           <Grid item xs={8} md={8}>
-                            block when the account's balance last balance changed
+                            The ledger index of the ledger version used when retrieving this
+                            information
                           </Grid>
                         </Grid>
                         <Grid container spacing={2} className="mt-2">
                           <Grid item xs={4} md={4} className="text-right font-medium">
-                            FLAGS
+                            VALIDATED
                           </Grid>
                           <Grid item xs={8} md={8}>
-                            dataset includes blockchain data up until this block
+                            True if this data is from a validated ledger version; if omitted or set
+                            to false, this data is not final.
                           </Grid>
                         </Grid>
                       </div>
@@ -322,14 +573,16 @@ const Report = (props) => {
                           <TableCell align="right">BALANCE IN XRP</TableCell>
                           {/* <TableCell align="right">PREVIOUS TXN ID</TableCell> */}
                           <TableCell align="right">LEDGER INDEX</TableCell>
-                          <TableCell align="right">FLAGS</TableCell>
+                          <TableCell align="right">VALIDATED</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {accountList.map((row) => (
                           <TableRow
                             key={row.result.account_data.Account}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            sx={{
+                              '&:last-child td, &:last-child th': { border: 0 },
+                            }}
                           >
                             <TableCell component="th" scope="row">
                               {row.result.account_data.Account}
@@ -339,7 +592,9 @@ const Report = (props) => {
                             {row.result.account_data.PreviousTxnID}
                           </TableCell> */}
                             <TableCell align="right">{row.result.ledger_current_index}</TableCell>
-                            <TableCell align="right">{row.result.account_data.Flags}</TableCell>
+                            <TableCell align="right">
+                              {row.result.validated ? 'True' : 'False'}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -351,6 +606,23 @@ const Report = (props) => {
           </div>
         </div>
       )}
+      <Dialog
+        disableBackdropClick
+        open={syncModal}
+        aria-labelledby="form-dialog-title"
+        fullWidth
+        maxWidth="sm"
+        classes={{
+          paper: 'rounded-8',
+        }}
+      >
+        <Toolbar className="flex w-full">
+          <Typography variant="h6" color="primary">
+            Sync Data
+          </Typography>
+        </Toolbar>
+        <SyncComponent formValue={formValue} SyncModal={() => setSyncModal(false)} />
+      </Dialog>
     </Root>
   );
 };

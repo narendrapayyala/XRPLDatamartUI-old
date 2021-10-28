@@ -1,16 +1,16 @@
-import FuseAuthorization from '@fuse/core/FuseAuthorization';
-import FuseLayout from '@fuse/core/FuseLayout';
-import FuseTheme from '@fuse/core/FuseTheme';
-import history from '@history';
-import { Router } from 'react-router-dom';
-import { SnackbarProvider } from 'notistack';
-import { useSelector } from 'react-redux';
-import rtlPlugin from 'stylis-plugin-rtl';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { selectCurrLangDir } from 'app/store/i18nSlice';
-import withAppProviders from './withAppProviders';
-import { Auth } from './auth';
+import FuseAuthorization from "@fuse/core/FuseAuthorization";
+import FuseLayout from "@fuse/core/FuseLayout";
+import FuseTheme from "@fuse/core/FuseTheme";
+import history from "@history";
+import { Router } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
+import { useSelector } from "react-redux";
+import rtlPlugin from "stylis-plugin-rtl";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { selectCurrLangDir } from "app/store/i18nSlice";
+import withAppProviders from "./withAppProviders";
+import { Auth } from "./auth";
 
 // import axios from 'axios';
 /**
@@ -22,12 +22,12 @@ import { Auth } from './auth';
 
 const emotionCacheOptions = {
   rtl: {
-    key: 'muirtl',
+    key: "muirtl",
     stylisPlugins: [rtlPlugin],
     prepend: true,
   },
   ltr: {
-    key: 'muiltr',
+    key: "muiltr",
     stylisPlugins: [],
     prepend: true,
   },
@@ -45,11 +45,12 @@ const App = () => {
               <SnackbarProvider
                 maxSnack={5}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
+                  vertical: "bottom",
+                  horizontal: "right",
                 }}
                 classes={{
-                  containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
+                  containerRoot:
+                    "bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99",
                 }}
               >
                 <FuseLayout />

@@ -1,6 +1,6 @@
-import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
-import { Link } from 'react-router-dom';
+import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
+import { Link } from "react-router-dom";
 
 function DocumentationButton({ className }) {
   return (

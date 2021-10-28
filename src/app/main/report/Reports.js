@@ -41,17 +41,13 @@ const Reports = (props) => {
   const categories = [
     { label: 'All categories', value: 'All categories' },
     { label: 'Network', value: 'Network' },
-    { label: 'Tokens', value: 'Tokens' },
-    { label: 'Decentralized Finance (DeFi)', value: 'Decentralized Finance (DeFi)' },
+    {
+      label: 'Sidechains',
+      value: 'Sidechains',
+    },
     { label: 'Balances', value: 'Balances' },
     { label: 'Transactions', value: 'Transactions' },
     { label: 'Smart Contracts', value: 'Smart Contracts' },
-    { label: 'Initial Coin Offerings (ICO)', value: 'Initial Coin Offerings (ICO)' },
-    {
-      label: 'Decentralized Autonomous Organizations (DAO)',
-      value: 'Decentralized Autonomous Organizations (DAO)',
-    },
-    { label: 'Miners', value: 'Miners' },
   ];
 
   const [reports, setReports] = useState([
@@ -59,58 +55,28 @@ const Reports = (props) => {
       report_name: 'Network',
       data: [
         {
-          img: '/material-ui-static/5.png',
+          img: 'xrp-logo.png',
           title: 'Top Account Activities',
           des: 'Coming Soon.....',
         },
         {
-          img: '/material-ui-static/7.png',
+          img: 'xrp-logo.png',
           title: 'Daily Network Statistics',
           des: 'Coming Soon.....',
         },
         {
-          img: '/material-ui-static/11.png',
+          img: 'xrp-logo.png',
           title: 'Daily Top Accounts',
           des: 'Coming Soon.....',
         },
       ],
     },
     {
-      report_name: 'Tokens',
+      report_name: 'Sidechains',
       data: [
         {
-          img: '/material-ui-static/1.png',
-          title: 'Token Transfers',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/17.png',
-          title: 'DAI Stablecoin Movements',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/19.png',
-          title: 'Uniswap Token Trading Volumes',
-          des: 'Coming Soon.....',
-        },
-      ],
-    },
-    {
-      report_name: 'Decentralized Finance (DeFi)',
-      data: [
-        {
-          img: '/material-ui-static/15.png',
-          title: 'XRP Locked in DeFi',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/16.png',
-          title: 'Maker CDP Actions',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/017.png',
-          title: 'DAI Stablecoin Movements',
+          img: 'xrp-logo.png',
+          title: 'Transactions',
           des: 'Coming Soon.....',
         },
       ],
@@ -119,14 +85,14 @@ const Reports = (props) => {
       report_name: 'Balances',
       data: [
         {
-          img: '/material-ui-static/3.png',
+          img: '/material-ui-static/img/xrpl.png',
           title: 'Current XRP Balances',
           des: 'A list of accounts with the current largest balances. Sort by recent activity or balance size.',
         },
         {
-          img: '/material-ui-static/4.png',
+          img: 'xrp-logo.png',
           title: 'Account Balance History',
-          des: 'Get all balance changes of an account over a given date range. Changes are calculated for each block.',
+          des: 'Get all balance changes of an account over a given date range.',
         },
       ],
     },
@@ -134,17 +100,17 @@ const Reports = (props) => {
       report_name: 'Transactions',
       data: [
         {
-          img: '/material-ui-static/2.png',
-          title: 'Account XRP + token transfers',
+          img: 'xrp-logo.png',
+          title: 'Account XRP + Transfers',
           des: 'Coming Soon.....',
         },
         {
-          img: '/material-ui-static/05.png',
+          img: 'xrp-logo.png',
           title: 'Top Account Activities',
           des: 'Coming Soon.....',
         },
         {
-          img: '/material-ui-static/6.png',
+          img: 'xrp-logo.png',
           title: 'Account Transactions / Messages',
           des: 'Coming Soon.....',
         },
@@ -154,53 +120,8 @@ const Reports = (props) => {
       report_name: 'Smart Contracts',
       data: [
         {
-          img: '/material-ui-static/31.png',
+          img: 'xrp-logo.png',
           title: 'Contract statistics',
-          des: 'Coming Soon.....',
-        },
-      ],
-    },
-    {
-      report_name: 'Initial Coin Offerings (ICO)',
-      data: [
-        {
-          img: '/material-ui-static/22.png',
-          title: 'Crowdsale Records',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/23.png',
-          title: 'Crowdsale Top Contributors',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/24.png',
-          title: 'Crowdsale Funds Flow',
-          des: 'Coming Soon.....',
-        },
-      ],
-    },
-    {
-      report_name: 'Decentralized Autonomous Organizations (DAO)',
-      data: [
-        {
-          img: '/material-ui-static/26.png',
-          title: 'Aragon Votes',
-          des: 'Coming Soon.....',
-        },
-      ],
-    },
-    {
-      report_name: 'Miners',
-      data: [
-        {
-          img: '/material-ui-static/9.png',
-          title: 'Daily Mining Statistics',
-          des: 'Coming Soon.....',
-        },
-        {
-          img: '/material-ui-static/10.png',
-          title: 'Miner Income Breakdown',
           des: 'Coming Soon.....',
         },
       ],
@@ -301,7 +222,12 @@ const Reports = (props) => {
                 <div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16">
                   <Card sx={{ maxWidth: 345 }} onClick={() => History.push(`/report/${res.title}`)}>
                     <CardActionArea>
-                      <CardMedia component="img" height="140" image={res.img} alt={res.title} />
+                      <CardMedia
+                        component="img"
+                        className="h-224"
+                        image={res.img}
+                        alt={res.title}
+                      />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                           {res.title}

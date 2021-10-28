@@ -1,8 +1,8 @@
-import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import Typography from "@mui/material/Typography";
+import clsx from "clsx";
+import moment from "moment";
+import PropTypes from "prop-types";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 function FuseCountdown(props) {
   const { onComplete } = props;
@@ -26,12 +26,12 @@ function FuseCountdown(props) {
 
   const tick = useCallback(() => {
     const currDate = moment();
-    const diff = endDate.diff(currDate, 'seconds');
+    const diff = endDate.diff(currDate, "seconds");
     if (diff < 0) {
       complete();
       return;
     }
-    const timeLeft = moment.duration(diff, 'seconds');
+    const timeLeft = moment.duration(diff, "seconds");
     setCountdown({
       days: timeLeft.asDays().toFixed(0),
       hours: timeLeft.hours(),
@@ -48,7 +48,7 @@ function FuseCountdown(props) {
   }, [tick]);
 
   return (
-    <div className={clsx('flex items-center', props.className)}>
+    <div className={clsx("flex items-center", props.className)}>
       <div className="flex flex-col items-center justify-center px-12">
         <Typography variant="h4" className="mb-4">
           {countdown.days}
@@ -91,7 +91,7 @@ FuseCountdown.propTypes = {
 };
 
 FuseCountdown.defaultProps = {
-  endDate: moment().add(15, 'days'),
+  endDate: moment().add(15, "days"),
 };
 
 export default memo(FuseCountdown);

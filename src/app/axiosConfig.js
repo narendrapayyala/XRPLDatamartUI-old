@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 // import { Auth } from 'aws-amplify';
 // import { logoutUser } from 'app/auth/store/userSlice';
 
@@ -11,7 +11,7 @@ axiosConfig.interceptors.request.use(
   function (config) {
     config.headers = {
       ...config.headers,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     return config;

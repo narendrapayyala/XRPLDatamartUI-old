@@ -1,40 +1,40 @@
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import { styled, useTheme } from '@mui/material/styles';
-import { useDebounce } from '@fuse/hooks';
-import Grow from '@mui/material/Grow';
-import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { memo, useState, useMemo } from 'react';
-import * as ReactDOM from 'react-dom';
-import { Manager, Popper, Reference } from 'react-popper';
-import { withRouter } from 'react-router-dom';
-import FuseNavItem from '../../FuseNavItem';
+import NavLinkAdapter from "@fuse/core/NavLinkAdapter";
+import { styled, useTheme } from "@mui/material/styles";
+import { useDebounce } from "@fuse/hooks";
+import Grow from "@mui/material/Grow";
+import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { memo, useState, useMemo } from "react";
+import * as ReactDOM from "react-dom";
+import { Manager, Popper, Reference } from "react-popper";
+import { withRouter } from "react-router-dom";
+import FuseNavItem from "../../FuseNavItem";
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: theme.palette.text.primary,
-  '&.active, &.active:hover, &.active:focus': {
+  "&.active, &.active:hover, &.active:focus": {
     backgroundColor: `${theme.palette.secondary.main}!important`,
     color: `${theme.palette.secondary.contrastText}!important`,
-    '& .fuse-list-item-text-primary': {
-      color: 'inherit',
+    "& .fuse-list-item-text-primary": {
+      color: "inherit",
     },
-    '& .fuse-list-item-icon': {
-      color: 'inherit',
+    "& .fuse-list-item-icon": {
+      color: "inherit",
     },
   },
-  '& .fuse-list-item-text': {
-    padding: '0 0 0 16px',
+  "& .fuse-list-item-text": {
+    padding: "0 0 0 16px",
   },
-  '&.level-0': {
+  "&.level-0": {
     height: 44,
     borderRadius: 4,
-    '&:hover': {
-      background: 'transparent',
+    "&:hover": {
+      background: "transparent",
     },
   },
 }));
@@ -51,7 +51,10 @@ function isUrlInChildren(parent, url) {
       }
     }
 
-    if (parent.children[i].url === url || url.includes(parent.children[i].url)) {
+    if (
+      parent.children[i].url === url ||
+      url.includes(parent.children[i].url)
+    ) {
       return true;
     }
   }
@@ -69,12 +72,13 @@ function FuseNavHorizontalGroup(props) {
   }, 150);
 
   return useMemo(() => {
-    let popperPlacement = 'left';
+    let popperPlacement = "left";
 
     if (nestedLevel === 0) {
-      popperPlacement = theme.direction === 'ltr' ? 'bottom-start' : 'bottom-end';
+      popperPlacement =
+        theme.direction === "ltr" ? "bottom-start" : "bottom-end";
     } else {
-      popperPlacement = theme.direction === 'ltr' ? 'right' : 'left';
+      popperPlacement = theme.direction === "ltr" ? "right" : "left";
     }
 
     return (
@@ -85,23 +89,26 @@ function FuseNavHorizontalGroup(props) {
               <StyledListItem
                 button
                 className={clsx(
-                  'fuse-list-item',
-                  'relative',
+                  "fuse-list-item",
+                  "relative",
                   `level-${nestedLevel}`,
-                  isUrlInChildren(item, props.location.pathname) && 'active'
+                  isUrlInChildren(item, props.location.pathname) && "active"
                 )}
                 onMouseEnter={() => handleToggle(true)}
                 onMouseLeave={() => handleToggle(false)}
-                aria-owns={opened ? 'menu-fuse-list-grow' : null}
+                aria-owns={opened ? "menu-fuse-list-grow" : null}
                 aria-haspopup="true"
-                component={item.url ? NavLinkAdapter : 'li'}
+                component={item.url ? NavLinkAdapter : "li"}
                 to={item.url}
                 role="button"
               >
                 {item.icon && (
                   <Icon
                     color="action"
-                    className={clsx('fuse-list-item-icon text-16 flex-shrink-0', item.iconClass)}
+                    className={clsx(
+                      "fuse-list-item-icon text-16 flex-shrink-0",
+                      item.iconClass
+                    )}
                   >
                     {item.icon}
                   </Icon>
@@ -110,7 +117,7 @@ function FuseNavHorizontalGroup(props) {
                 <ListItemText
                   className="fuse-list-item-text"
                   primary={item.title}
-                  classes={{ primary: 'text-13' }}
+                  classes={{ primary: "text-13" }}
                 />
 
                 {nestedLevel > 0 && (
@@ -121,7 +128,9 @@ function FuseNavHorizontalGroup(props) {
                     size="large"
                   >
                     <Icon className="text-16 arrow-icon">
-                      {theme.direction === 'ltr' ? 'keyboard_arrow_right' : 'keyboard_arrow_left'}
+                      {theme.direction === "ltr"
+                        ? "keyboard_arrow_right"
+                        : "keyboard_arrow_left"}
                     </Icon>
                   </IconButton>
                 )}
@@ -130,7 +139,11 @@ function FuseNavHorizontalGroup(props) {
           )}
         </Reference>
         {ReactDOM.createPortal(
-          <Popper placement={popperPlacement} eventsEnabled={opened} positionFixed>
+          <Popper
+            placement={popperPlacement}
+            eventsEnabled={opened}
+            positionFixed
+          >
             {({ ref, style, placement, arrowProps }) =>
               opened && (
                 <div
@@ -140,16 +153,26 @@ function FuseNavHorizontalGroup(props) {
                     zIndex: 999 + nestedLevel,
                   }}
                   data-placement={placement}
-                  className={clsx('z-999', !opened && 'pointer-events-none')}
+                  className={clsx("z-999", !opened && "pointer-events-none")}
                 >
-                  <Grow in={opened} id="menu-fuse-list-grow" style={{ transformOrigin: '0 0 0' }}>
+                  <Grow
+                    in={opened}
+                    id="menu-fuse-list-grow"
+                    style={{ transformOrigin: "0 0 0" }}
+                  >
                     <Paper
                       className="rounded-8"
                       onMouseEnter={() => handleToggle(true)}
                       onMouseLeave={() => handleToggle(false)}
                     >
                       {item.children && (
-                        <ul className={clsx('popper-navigation-list', dense && 'dense', 'px-0')}>
+                        <ul
+                          className={clsx(
+                            "popper-navigation-list",
+                            dense && "dense",
+                            "px-0"
+                          )}
+                        >
                           {item.children.map((_item) => (
                             <FuseNavItem
                               key={_item.id}
@@ -167,11 +190,19 @@ function FuseNavHorizontalGroup(props) {
               )
             }
           </Popper>,
-          document.querySelector('#root')
+          document.querySelector("#root")
         )}
       </Manager>
     );
-  }, [dense, handleToggle, item, nestedLevel, opened, props.location.pathname, theme.direction]);
+  }, [
+    dense,
+    handleToggle,
+    item,
+    nestedLevel,
+    opened,
+    props.location.pathname,
+    theme.direction,
+  ]);
 }
 
 FuseNavHorizontalGroup.propTypes = {

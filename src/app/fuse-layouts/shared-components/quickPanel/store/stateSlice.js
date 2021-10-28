@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const stateSlice = createSlice({
-  name: 'quickPanel/state',
+  name: "quickPanel/state",
   initialState: false,
   reducers: {
     toggleQuickPanel: (state, action) => !state,
@@ -10,6 +10,7 @@ const stateSlice = createSlice({
   },
 });
 
-export const { toggleQuickPanel, openQuickPanel, closeQuickPanel } = stateSlice.actions;
+export const { toggleQuickPanel, openQuickPanel, closeQuickPanel } =
+  stateSlice.actions;
 
 export default stateSlice.reducer;

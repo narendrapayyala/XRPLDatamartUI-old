@@ -1,8 +1,8 @@
-import * as Prism from 'prismjs';
-import PropTypes from 'prop-types';
-import { memo, useEffect, useRef } from 'react';
-import './prism-languages';
-import { styled } from '@mui/material/styles';
+import * as Prism from "prismjs";
+import PropTypes from "prop-types";
+import { memo, useEffect, useRef } from "react";
+import "./prism-languages";
+import { styled } from "@mui/material/styles";
 
 function FuseHighlight(props) {
   const domNode = useRef(null);
@@ -19,12 +19,12 @@ function FuseHighlight(props) {
   function trimCode() {
     let sourceString = props.children;
 
-    if (typeof sourceString === 'object' && sourceString.default) {
+    if (typeof sourceString === "object" && sourceString.default) {
       sourceString = sourceString.default;
     }
 
     // Split the source into lines
-    const sourceLines = sourceString.split('\n');
+    const sourceLines = sourceString.split("\n");
 
     // Remove the first and the last line of the source
     // code if they are blank lines. This way, the html
@@ -43,7 +43,7 @@ function FuseHighlight(props) {
     const indexOfFirstChar = sourceLines[0].search(/\S|$/);
 
     // Generate the trimmed source
-    let sourceRaw = '';
+    let sourceRaw = "";
 
     // Iterate through all the lines
     sourceLines.forEach((line, index) => {
@@ -73,7 +73,7 @@ FuseHighlight.propTypes = {
   component: PropTypes.node,
 };
 FuseHighlight.defaultProps = {
-  component: 'code',
+  component: "code",
 };
 
 export default memo(styled(FuseHighlight)``);

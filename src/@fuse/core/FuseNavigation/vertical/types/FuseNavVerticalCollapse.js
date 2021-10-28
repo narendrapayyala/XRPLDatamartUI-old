@@ -1,34 +1,34 @@
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import { styled, alpha } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse';
-import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useEffect, useState, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import FuseNavBadge from '../../FuseNavBadge';
-import FuseNavItem from '../../FuseNavItem';
+import NavLinkAdapter from "@fuse/core/NavLinkAdapter";
+import { styled, alpha } from "@mui/material/styles";
+import Collapse from "@mui/material/Collapse";
+import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { useEffect, useState, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import FuseNavBadge from "../../FuseNavBadge";
+import FuseNavItem from "../../FuseNavItem";
 
-const Root = styled('ul')(({ theme, ...props }) => ({
+const Root = styled("ul")(({ theme, ...props }) => ({
   padding: 0,
-  '&.open': {},
-  '& > .fuse-list-item': {
+  "&.open": {},
+  "& > .fuse-list-item": {
     height: 40,
-    width: '100%',
-    borderRadius: '6px',
-    margin: '0 0 4px 0',
+    width: "100%",
+    borderRadius: "6px",
+    margin: "0 0 4px 0",
     paddingRight: 12,
     paddingLeft: props.itemPadding > 80 ? 80 : props.itemPadding,
     color: alpha(theme.palette.text.primary, 0.7),
-    '&:hover': {
+    "&:hover": {
       color: theme.palette.text.primary,
     },
-    '& > .fuse-list-item-icon': {
+    "& > .fuse-list-item-icon": {
       marginRight: 12,
-      color: 'inherit',
+      color: "inherit",
     },
   },
 }));
@@ -49,7 +49,10 @@ function isUrlInChildren(parent, url) {
       }
     }
 
-    if (parent.children[i].url === url || url.includes(parent.children[i].url)) {
+    if (
+      parent.children[i].url === url ||
+      url.includes(parent.children[i].url)
+    ) {
       return true;
     }
   }
@@ -58,7 +61,9 @@ function isUrlInChildren(parent, url) {
 }
 
 function FuseNavVerticalCollapse(props) {
-  const [open, setOpen] = useState(() => needsToBeOpened(props.location, props.item));
+  const [open, setOpen] = useState(() =>
+    needsToBeOpened(props.location, props.item)
+  );
   const { item, nestedLevel, onItemClick } = props;
   const itemPadding = nestedLevel > 0 ? 28 + nestedLevel * 16 : 12;
 
@@ -71,22 +76,25 @@ function FuseNavVerticalCollapse(props) {
       }
     }
     // eslint-disable-next-line
-	}, [location, props.item]);
+  }, [location, props.item]);
 
   return useMemo(
     () => (
-      <Root className={clsx(open && 'open')} itemPadding={itemPadding}>
+      <Root className={clsx(open && "open")} itemPadding={itemPadding}>
         <ListItem
           button
           className="fuse-list-item"
           onClick={() => setOpen(!open)}
-          component={item.url ? NavLinkAdapter : 'li'}
+          component={item.url ? NavLinkAdapter : "li"}
           to={item.url}
           role="button"
         >
           {item.icon && (
             <Icon
-              className={clsx('fuse-list-item-icon text-20 flex-shrink-0', item.iconClass)}
+              className={clsx(
+                "fuse-list-item-icon text-20 flex-shrink-0",
+                item.iconClass
+              )}
               color="action"
             >
               {item.icon}
@@ -96,7 +104,7 @@ function FuseNavVerticalCollapse(props) {
           <ListItemText
             className="fuse-list-item-text"
             primary={item.title}
-            classes={{ primary: 'text-13 font-medium' }}
+            classes={{ primary: "text-13 font-medium" }}
           />
 
           {item.badge && <FuseNavBadge className="mx-4" badge={item.badge} />}
@@ -108,7 +116,7 @@ function FuseNavVerticalCollapse(props) {
             size="large"
           >
             <Icon className="text-16 arrow-icon" color="inherit">
-              {open ? 'expand_less' : 'expand_more'}
+              {open ? "expand_less" : "expand_more"}
             </Icon>
           </IconButton>
         </ListItem>
