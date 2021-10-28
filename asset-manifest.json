@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/XRPLDatamartUI/static/css/main.37e9d92d.chunk.css",
+    "main.js": "/XRPLDatamartUI/static/js/main.286cc5d1.chunk.js",
+    "runtime-main.js": "/XRPLDatamartUI/static/js/runtime-main.ebf1a71e.js",
+    "static/css/2.5555fed4.chunk.css": "/XRPLDatamartUI/static/css/2.5555fed4.chunk.css",
+    "static/js/2.b3554291.chunk.js": "/XRPLDatamartUI/static/js/2.b3554291.chunk.js",
+    "static/js/3.a6188801.chunk.js": "/XRPLDatamartUI/static/js/3.a6188801.chunk.js",
+    "index.html": "/XRPLDatamartUI/index.html",
+    "static/js/2.b3554291.chunk.js.LICENSE.txt": "/XRPLDatamartUI/static/js/2.b3554291.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/XRPLDatamartUI/static/media/poppins-latin-900italic.babad407.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ebf1a71e.js",
+    "static/css/2.5555fed4.chunk.css",
+    "static/js/2.b3554291.chunk.js",
+    "static/css/main.37e9d92d.chunk.css",
+    "static/js/main.286cc5d1.chunk.js"
+  ]
+}
