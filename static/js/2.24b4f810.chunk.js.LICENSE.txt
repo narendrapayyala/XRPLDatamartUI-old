@@ -275,3 +275,5 @@ and limitations under the License.
  */
 
 // @license MIT
+
+//! moment.js
