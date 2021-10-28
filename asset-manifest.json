@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "./static/css/main.413138cf.chunk.css",
-    "main.js": "./static/js/main.83ba97fe.chunk.js",
-    "runtime-main.js": "./static/js/runtime-main.d3eb3224.js",
-    "static/css/2.e6fc91f4.chunk.css": "./static/css/2.e6fc91f4.chunk.css",
-    "static/js/2.24b4f810.chunk.js": "./static/js/2.24b4f810.chunk.js",
-    "static/js/3.23ae9ba3.chunk.js": "./static/js/3.23ae9ba3.chunk.js",
-    "index.html": "./index.html",
-    "static/js/2.24b4f810.chunk.js.LICENSE.txt": "./static/js/2.24b4f810.chunk.js.LICENSE.txt",
-    "static/media/index.css": "./static/media/poppins-latin-900italic.babad407.woff2"
+    "main.css": "/XRPLDatamartUI/static/css/main.413138cf.chunk.css",
+    "main.js": "/XRPLDatamartUI/static/js/main.2ee47d70.chunk.js",
+    "runtime-main.js": "/XRPLDatamartUI/static/js/runtime-main.135ef0ab.js",
+    "static/css/2.5555fed4.chunk.css": "/XRPLDatamartUI/static/css/2.5555fed4.chunk.css",
+    "static/js/2.fa86b74c.chunk.js": "/XRPLDatamartUI/static/js/2.fa86b74c.chunk.js",
+    "static/js/3.23ae9ba3.chunk.js": "/XRPLDatamartUI/static/js/3.23ae9ba3.chunk.js",
+    "index.html": "/XRPLDatamartUI/index.html",
+    "static/js/2.fa86b74c.chunk.js.LICENSE.txt": "/XRPLDatamartUI/static/js/2.fa86b74c.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/XRPLDatamartUI/static/media/poppins-latin-900italic.babad407.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.d3eb3224.js",
-    "static/css/2.e6fc91f4.chunk.css",
-    "static/js/2.24b4f810.chunk.js",
+    "static/js/runtime-main.135ef0ab.js",
+    "static/css/2.5555fed4.chunk.css",
+    "static/js/2.fa86b74c.chunk.js",
     "static/css/main.413138cf.chunk.css",
-    "static/js/main.83ba97fe.chunk.js"
+    "static/js/main.2ee47d70.chunk.js"
   ]
 }
